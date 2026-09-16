@@ -1,0 +1,2868 @@
+<!DOCTYPE html>
+<html>
+<head>
+  
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex, nofollow">
+  <meta name="referrer" content="no-referrer">
+  <title>Entag Case Study Library</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Akshar:wght@300;400;500;600;700&family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+/* Entag Case Study Library
+   Palette and type from Brand Guidelines/Entag_Brand_Design_System.md
+   Akshar for English, Cairo for Arabic (Akshar has no Arabic glyphs). */
+
+:root {
+  --green:        #036D35;
+  --green-bright: #68D08C;
+  --green-light:  #97DFB0;
+  --green-pale:   #DCFAE6;
+  --ink:          #101828;
+  --body:         #475467;
+  --border:       #EAECF0;
+  --surface:      #F9FAFB;
+  --white:        #FFFFFF;
+  --amber:        #B54708;
+  --amber-bg:     #FFFAEB;
+  --radius:       12px;
+  --shadow:       0 1px 3px rgba(16,24,40,.06), 0 1px 2px rgba(16,24,40,.04);
+  --shadow-lift:  0 8px 24px rgba(16,24,40,.10);
+}
+
+* { box-sizing: border-box; }
+
+/* "hidden" must always win, even over elements styled as flex (the tabs). */
+[hidden] { display: none !important; }
+
+html, body {
+  margin: 0;
+  padding: 0;
+  background: var(--surface);
+  color: var(--body);
+  font-family: 'Akshar', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  font-size: 16px;
+  line-height: 1.55;
+}
+
+body[dir="rtl"], #detailBody[dir="rtl"] {
+  font-family: 'Cairo', system-ui, 'Segoe UI', sans-serif;
+}
+/* A case study shown in English while the rest of the page is in Arabic. */
+#detailBody[dir="ltr"] {
+  font-family: 'Akshar', system-ui, -apple-system, 'Segoe UI', sans-serif;
+}
+
+h1, h2, h3 { color: var(--ink); font-weight: 600; margin: 0; }
+button, input, select, textarea { font-family: inherit; font-size: inherit; }
+
+/* ---------------------------------------------------------------- header */
+
+.topbar {
+  background: var(--white);
+  border-bottom: 1px solid var(--border);
+  position: sticky;
+  top: 0;
+  z-index: 20;
+}
+.topbar-inner {
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 14px 22px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+.brand { display: flex; align-items: center; gap: 12px; }
+.brand-mark {
+  width: 34px; height: 34px; border-radius: 9px;
+  background: var(--green);
+  position: relative; flex: none;
+}
+.brand-mark::after {
+  content: ''; position: absolute; inset: 10px;
+  border: 2px solid var(--white); border-radius: 3px;
+}
+.brand-logo { height: 30px; width: auto; display: block; flex: none; }
+.brand-text { border-inline-start: 1px solid var(--border); padding-inline-start: 12px; }
+.brand-title { color: var(--ink); font-weight: 600; font-size: 18px; line-height: 1.2; }
+.brand-sub   { font-size: 13px; color: var(--body); }
+
+.topbar-actions { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+.tab, .topbar-actions .link-btn { white-space: nowrap; }
+
+.tabs { display: flex; gap: 4px; background: var(--surface); padding: 4px; border-radius: 10px; }
+.tab {
+  border: 0; background: transparent; color: var(--body);
+  padding: 7px 15px; border-radius: 8px; cursor: pointer; font-weight: 500;
+}
+.tab.is-active { background: var(--white); color: var(--ink); box-shadow: var(--shadow); }
+
+.lang-toggle {
+  border: 1px solid var(--border); background: var(--white); color: var(--ink);
+  padding: 7px 16px; border-radius: 8px; cursor: pointer; font-weight: 600;
+}
+.lang-toggle:hover { border-color: var(--green-light); }
+
+.nav-arrows { display: flex; gap: 6px; }
+.nav-btn {
+  border: 1px solid var(--border); background: var(--white); color: var(--ink);
+  padding: 7px 12px; border-radius: 8px; cursor: pointer; font-weight: 600; white-space: nowrap;
+}
+.nav-btn:hover:not(:disabled) { border-color: var(--green-light); }
+.nav-btn:disabled { opacity: .4; cursor: default; }
+#navBack::before { content: '\2039'; margin-inline-end: 6px; }
+#navForward::after { content: '\203A'; margin-inline-start: 6px; }
+body[dir="rtl"] #navBack::before { content: '\203A'; }
+body[dir="rtl"] #navForward::after { content: '\2039'; }
+
+/* ------------------------------------------------------------------ main */
+
+main { max-width: 1180px; margin: 0 auto; padding: 26px 22px 80px; }
+.view { animation: fade .18s ease; }
+@keyframes fade { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: none; } }
+
+.page-title { font-size: 30px; margin-bottom: 6px; }
+.page-intro { margin: 0 0 6px; max-width: 62ch; }
+.note {
+  background: var(--green-pale); color: #05502a;
+  border-radius: 10px; padding: 10px 14px; margin: 12px 0 22px;
+  font-size: 14px; max-width: 62ch;
+}
+
+.loading { padding: 40px 0; color: var(--body); }
+
+/* -------------------------------------------------------------- toolbar */
+
+.toolbar { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; margin-bottom: 16px; }
+.search {
+  flex: 1 1 280px; min-width: 220px;
+  padding: 11px 14px; border: 1px solid var(--border); border-radius: 10px;
+  background: var(--white); color: var(--ink);
+}
+.search:focus, .filter:focus, .field input:focus, .field textarea:focus, .field select:focus {
+  outline: none; border-color: var(--green); box-shadow: 0 0 0 3px var(--green-pale);
+}
+.filters { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+.filter {
+  padding: 10px 12px; border: 1px solid var(--border); border-radius: 10px;
+  background: var(--white); color: var(--ink); cursor: pointer;
+}
+.link-btn {
+  border: 0; background: none; color: var(--green); cursor: pointer;
+  font-weight: 600; padding: 8px 4px;
+}
+.link-btn:hover { text-decoration: underline; }
+.back { margin-bottom: 14px; display: inline-block; }
+
+.result-count { font-size: 14px; margin-bottom: 14px; }
+
+/* ---------------------------------------------------------------- cards */
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(272px, 1fr));
+  gap: 18px;
+}
+.card {
+  background: var(--white); border: 1px solid var(--border); border-radius: var(--radius);
+  overflow: hidden; cursor: pointer; box-shadow: var(--shadow);
+  transition: transform .14s ease, box-shadow .14s ease;
+  display: flex; flex-direction: column;
+}
+.card:hover { transform: translateY(-2px); box-shadow: var(--shadow-lift); }
+.card-body { padding: 15px 16px 17px; display: flex; flex-direction: column; gap: 7px; flex: 1; }
+.card-client { color: var(--ink); font-weight: 600; font-size: 17px; line-height: 1.25; }
+.card-part { font-size: 14px; }
+.card-metric {
+  background: var(--green-pale); color: #05502a; border-radius: 8px;
+  padding: 7px 11px; font-size: 13px; font-weight: 500; margin-top: auto;
+}
+.card-metric b { color: var(--green); }
+.card-foot { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+.chip {
+  font-size: 11.5px; padding: 3px 9px; border-radius: 999px;
+  background: var(--surface); border: 1px solid var(--border); color: var(--body);
+}
+.badge { font-size: 11.5px; padding: 3px 9px; border-radius: 999px; font-weight: 600; }
+.badge.draft      { background: var(--surface);    color: var(--body); border: 1px solid var(--border); }
+.badge.needs_info { background: var(--amber-bg);   color: var(--amber); }
+.badge.approved   { background: var(--green-pale); color: #05502a; }
+.badge.published  { background: var(--green);      color: var(--white); }
+
+.empty { text-align: center; padding: 64px 20px; color: var(--body); }
+.empty-title { color: var(--ink); font-size: 19px; font-weight: 600; margin-bottom: 6px; }
+
+/* --------------------------------------------------------------- detail */
+
+.detail-head {
+  background: var(--white); border: 1px solid var(--border); border-radius: var(--radius);
+  padding: 24px; margin-bottom: 18px;
+}
+.detail-title { font-size: 27px; margin-bottom: 4px; }
+.detail-sub { font-size: 15px; margin-bottom: 14px; }
+.detail-actions { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 16px; }
+
+.btn {
+  border: 0; border-radius: 9px; padding: 10px 20px; cursor: pointer; font-weight: 600;
+}
+.btn-primary { background: var(--green); color: var(--white); }
+.btn-primary:hover { background: #02592b; }
+.btn-primary:disabled { opacity: .6; cursor: default; }
+.btn-ghost { background: var(--white); color: var(--ink); border: 1px solid var(--border); }
+.btn-ghost:hover { border-color: var(--green-light); }
+.btn-danger { background: var(--white); color: var(--amber); border: 1px solid var(--border); }
+
+.proof-strip {
+  display: flex; gap: 26px; flex-wrap: wrap;
+  background: var(--green-pale); border-radius: 10px; padding: 16px 20px; margin: 16px 0 0;
+}
+.proof-item .proof-label { font-size: 12px; text-transform: uppercase; letter-spacing: .04em; }
+.proof-item .proof-value { color: var(--ink); font-size: 21px; font-weight: 600; }
+.proof-arrow { align-self: center; color: var(--green); font-size: 21px; }
+
+.block {
+  background: var(--white); border: 1px solid var(--border); border-radius: var(--radius);
+  padding: 20px 24px; margin-bottom: 14px;
+}
+.block h3 { font-size: 13px; text-transform: uppercase; letter-spacing: .05em; color: var(--body); margin-bottom: 8px; }
+.block p { margin: 0; color: var(--ink); white-space: pre-wrap; }
+.block.quote p { font-size: 18px; font-style: italic; }
+.block .attrib { margin-top: 8px; font-size: 14px; font-style: normal; }
+
+.meta-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 14px; }
+.meta-item .meta-label { font-size: 12px; text-transform: uppercase; letter-spacing: .04em; }
+.meta-item .meta-value { color: var(--ink); font-weight: 500; }
+
+.gallery { display: grid; grid-template-columns: repeat(auto-fill, minmax(190px, 1fr)); gap: 12px; }
+.gallery img { width: 100%; border-radius: 10px; border: 1px solid var(--border); display: block; }
+
+.flag {
+  display: inline-block; font-size: 11.5px; padding: 2px 9px; border-radius: 999px;
+  background: var(--amber-bg); color: var(--amber); margin-inline-start: 8px; font-weight: 600;
+}
+.flag.human { background: var(--green-pale); color: #05502a; }
+.flag.internal { background: #FEF3F2; color: #B42318; }
+
+.content-lang { display: inline-flex; gap: 4px; background: var(--surface); padding: 3px; border-radius: 8px; }
+.content-lang button {
+  border: 0; background: transparent; padding: 5px 13px; border-radius: 6px;
+  cursor: pointer; color: var(--body); font-weight: 600; font-size: 13px;
+}
+.content-lang button.is-active { background: var(--white); color: var(--ink); box-shadow: var(--shadow); }
+
+/* ----------------------------------------------------------------- form */
+
+.section {
+  background: var(--white); border: 1px solid var(--border); border-radius: var(--radius);
+  padding: 22px 24px; margin-bottom: 16px;
+}
+.section-title { font-size: 19px; margin-bottom: 4px; }
+
+.field { padding: 16px 0; border-bottom: 1px solid var(--border); }
+.field:last-child { border-bottom: 0; padding-bottom: 4px; }
+.field-label { color: var(--ink); font-weight: 600; display: block; margin-bottom: 3px; }
+.field-req { font-size: 11.5px; font-weight: 600; color: var(--green); margin-inline-start: 7px; }
+.field-opt { font-size: 11.5px; color: var(--body); margin-inline-start: 7px; }
+.field-help { font-size: 14px; margin-bottom: 10px; max-width: 68ch; }
+
+.field input[type="text"], .field input[type="month"], .field textarea, .field select {
+  width: 100%; padding: 11px 13px; border: 1px solid var(--border); border-radius: 9px;
+  background: var(--white); color: var(--ink);
+}
+.field textarea { min-height: 110px; resize: vertical; line-height: 1.6; }
+.field .other-input { margin-top: 10px; border-color: var(--green-light); background: #FCFFFD; }
+.field.has-error input, .field.has-error textarea, .field.has-error select { border-color: #D92D20; }
+.field-error { color: #D92D20; font-size: 13px; margin-top: 6px; display: none; }
+.field.has-error .field-error { display: block; }
+
+.checks { display: flex; flex-wrap: wrap; gap: 8px; }
+.check {
+  display: inline-flex; align-items: center; gap: 7px;
+  border: 1px solid var(--border); border-radius: 999px; padding: 8px 15px;
+  cursor: pointer; background: var(--white); user-select: none;
+}
+.check input { accent-color: var(--green); margin: 0; }
+.check.is-on { border-color: var(--green); background: var(--green-pale); color: #05502a; }
+
+.pair { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.pair > .field { border-bottom: 0; display: flex; flex-direction: column; }
+/* Same space under both boxes (the "last question" rule would shrink the second). */
+.pair > .field, .pair > .field:last-child { padding-bottom: 16px; }
+/* Line the two boxes up even when one helper line is longer than the other. */
+.pair > .field > input { margin-top: auto; }
+@media (max-width: 640px) { .pair { grid-template-columns: 1fr; } }
+
+.disclosure {
+  border: 1px dashed var(--green-light); background: var(--green-pale); color: #05502a;
+  border-radius: 10px; padding: 12px 18px; cursor: pointer; font-weight: 600; width: 100%;
+}
+
+.readiness {
+  border-radius: 10px; padding: 13px 18px; margin-bottom: 18px; font-size: 14px;
+  background: var(--amber-bg); color: var(--amber);
+}
+.readiness.is-ready { background: var(--green-pale); color: #05502a; }
+.readiness ul { margin: 6px 0 0; padding-inline-start: 20px; }
+
+.form-actions { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; padding: 6px 0 40px; }
+.form-msg { font-size: 14px; }
+
+/* --------------------------------------------------------------- upload */
+
+.dropzone {
+  border: 2px dashed var(--green-light); background: var(--green-pale);
+  border-radius: var(--radius); padding: 30px 20px; text-align: center;
+  cursor: pointer; color: #05502a;
+}
+.dropzone.is-over { border-color: var(--green); background: #cdf5dc; }
+.dropzone-hint { font-size: 13px; margin-top: 5px; }
+.thumbs { display: grid; grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); gap: 12px; margin-top: 14px; }
+.thumb { position: relative; }
+.thumb img { width: 100%; height: 105px; object-fit: cover; border-radius: 9px; border: 1px solid var(--border); display: block; }
+.thumb button {
+  position: absolute; top: 6px; inset-inline-end: 6px;
+  border: 0; border-radius: 6px; background: rgba(16,24,40,.78); color: #fff;
+  font-size: 11.5px; padding: 3px 8px; cursor: pointer;
+}
+
+/* ----------------------------------------------------------- post drafts */
+
+.post-panel {
+  background: var(--white); border: 1px solid var(--border); border-radius: var(--radius);
+  padding: 20px 24px; margin-bottom: 18px;
+}
+.post-head { display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap; margin-bottom: 6px; }
+.post-title { font-size: 19px; }
+.post-intro { margin: 0 0 14px; }
+.post-warn { background: var(--amber-bg); color: var(--amber); border-radius: 10px; padding: 10px 14px; margin-bottom: 12px; font-size: 14px; }
+.post-link { background: var(--green-pale); color: #05502a; border-radius: 10px; padding: 10px 14px; margin-bottom: 6px; font-size: 13px; }
+.post-card { border: 1px solid var(--border); border-radius: 12px; padding: 16px 18px; margin-top: 14px; }
+.post-card.is-best { border-color: var(--green); box-shadow: 0 0 0 3px var(--green-pale); }
+.post-card-top { display: flex; align-items: center; gap: 8px; color: var(--ink); }
+.video-list { display: flex; flex-direction: column; gap: 8px; margin-top: 10px; }
+.video-item {
+  border: 1px solid var(--border); border-radius: 10px; padding: 10px 12px; background: var(--white);
+  display: flex; flex-wrap: wrap; align-items: center; gap: 6px 12px;
+}
+.video-top { flex: 1 1 200px; display: flex; justify-content: space-between; gap: 10px; min-width: 0; }
+.video-name { color: var(--ink); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; min-width: 0; }
+.video-status { font-size: 13px; color: var(--body); white-space: nowrap; }
+.video-item.is-done .video-status { color: var(--green); }
+.video-item.is-failed .video-status { color: var(--amber); }
+.video-bar { flex-basis: 100%; height: 4px; border-radius: 4px; background: var(--surface); overflow: hidden; }
+.video-fill { height: 100%; background: var(--green); transition: width .2s ease; }
+.video-item.is-done .video-bar { display: none; }
+.video-link { display: block; padding: 7px 0; color: var(--green); font-weight: 500; text-decoration: none; }
+.video-link:hover { text-decoration: underline; }
+.video-note { font-size: 13px; margin-top: 6px; }
+.flag.anon { background: var(--green-pale); color: #05502a; display: inline-block; align-self: flex-start; width: fit-content; margin: 4px 0 2px; }
+.gallery a { display: block; border-radius: 10px; }
+.gallery a:hover img, .gallery a:focus img { border-color: var(--green); box-shadow: 0 0 0 3px var(--green-pale); }
+.photo-note { font-size: 13px; margin-top: 10px; }
+.folder-link { color: var(--green); font-weight: 600; text-decoration: none; }
+.folder-link:hover { text-decoration: underline; }
+.filling-as { font-size: 13px; color: var(--body); margin: -6px 0 6px; font-weight: 600; }
+.save-state { font-size: 13px; color: var(--body); margin: -6px 0 14px; min-height: 18px; }
+.save-state.is-saved { color: var(--green); }
+.save-state.is-failed { color: var(--amber); }
+.post-card > summary { list-style: none; cursor: pointer; flex-wrap: wrap; }
+.post-card > summary::-webkit-details-marker { display: none; }
+.post-card > summary::after {
+  content: '\25BE'; margin-inline-start: auto; color: var(--green); font-size: 16px;
+  transition: transform .15s ease;
+}
+.post-card:not([open]) > summary::after { transform: rotate(-90deg); }
+[dir="rtl"] .post-card:not([open]) > summary::after { transform: rotate(90deg); }
+.post-peek {
+  order: 1; flex-basis: 100%; min-width: 0; margin-top: 4px; font-size: 14px; color: var(--body);
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.post-card[open] .post-peek { display: none; }
+.post-why { font-size: 13px; margin: 4px 0 10px; }
+.post-text {
+  white-space: pre-wrap; background: var(--surface); border-radius: 10px;
+  padding: 14px 16px; color: var(--ink); line-height: 1.6; font-size: 15px;
+}
+.post-actions { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 12px; }
+.post-comment { margin-top: 10px; font-size: 13px; }
+.post-comment code, .post-link code {
+  display: block; margin-top: 4px; padding: 8px 10px; background: var(--surface);
+  border-radius: 8px; word-break: break-all; font-size: 12.5px; color: var(--ink);
+}
+.btn-sm { padding: 6px 12px; font-size: 13px; margin-top: 8px; }
+
+/* -------------------------------------------------------------- sign in */
+
+.signin {
+  max-width: 440px; margin: 48px auto; background: var(--white);
+  border: 1px solid var(--border); border-radius: var(--radius);
+  padding: 30px 28px; box-shadow: var(--shadow);
+  display: flex; flex-direction: column; gap: 14px;
+}
+.signin-input {
+  padding: 13px 15px; border: 1px solid var(--border); border-radius: 10px;
+  font-size: 20px; letter-spacing: .18em; text-transform: uppercase; text-align: center;
+  color: var(--ink);
+}
+.signin-input:focus { outline: none; border-color: var(--green); box-shadow: 0 0 0 3px var(--green-pale); }
+.signin-msg { margin: 0; color: #D92D20; font-size: 14px; }
+
+/* ---------------------------------------------------------------- toast */
+
+.toast {
+  position: fixed; inset-inline-end: 22px; bottom: 22px;
+  background: var(--ink); color: var(--white);
+  padding: 12px 20px; border-radius: 10px; box-shadow: var(--shadow-lift);
+  z-index: 50; font-weight: 500;
+}
+
+@media (max-width: 620px) {
+  .topbar-inner { padding: 12px 16px; }
+  main { padding: 20px 16px 60px; }
+  .brand-sub { display: none; }
+  .section, .block, .detail-head { padding-inline: 17px; }
+}
+</style>
+
+</head>
+
+<body>
+  <!-- ------------------------------------------------------------------ -->
+  <!-- Header                                                              -->
+  <!-- ------------------------------------------------------------------ -->
+  <header class="topbar">
+    <div class="topbar-inner">
+      <div class="brand">
+        <!-- Entag green logo, from entag.co (990x331). Kept green on white per the brand guidelines. -->
+<img class="brand-logo" alt="Entag" width="99" height="33" src="data:image/webp;base64,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">
+
+        <div class="brand-text">
+          <div class="brand-title" data-s="headerTitle"></div>
+          <div class="brand-sub" data-s="appSubtitle"></div>
+        </div>
+      </div>
+
+      <div class="topbar-actions">
+        <div class="nav-arrows" id="navArrows" hidden>
+          <button class="nav-btn" id="navBack" data-s="navBack" disabled></button>
+          <button class="nav-btn" id="navForward" data-s="navForward" disabled></button>
+        </div>
+        <nav class="tabs" id="tabs" hidden>
+          <button class="tab is-active" id="tabLibrary" data-s="navLibrary"></button>
+          <button class="tab" id="tabAdd" data-s="navAdd"></button>
+        </nav>
+        <button class="lang-toggle" id="langToggle" data-s="langToggle"></button>
+        <button class="link-btn" id="signOutBtn" data-s="signOut" hidden></button>
+      </div>
+    </div>
+  </header>
+
+  <main id="main">
+
+    <!-- ---------------------------------------------------------------- -->
+    <!-- Sign in                                                           -->
+    <!-- ---------------------------------------------------------------- -->
+    <section id="viewSignIn" class="view" hidden>
+      <form class="signin" id="signInForm" autocomplete="off">
+        <h1 class="page-title" data-s="signInTitle"></h1>
+        <p class="page-intro" data-s="signInIntro"></p>
+        <input type="text" id="signInCode" class="signin-input" autocapitalize="characters" spellcheck="false">
+        <button type="submit" class="btn btn-primary" data-s="signInButton"></button>
+        <p class="signin-msg" id="signInMsg" hidden></p>
+      </form>
+    </section>
+
+    <!-- ---------------------------------------------------------------- -->
+    <!-- Library                                                           -->
+    <!-- ---------------------------------------------------------------- -->
+    <section id="viewLibrary" class="view">
+      <div class="toolbar">
+        <input type="search" id="search" class="search" autocomplete="off">
+        <div class="filters">
+          <select id="fCapability" class="filter"></select>
+          <select id="fIndustry" class="filter"></select>
+          <select id="fStatus" class="filter"></select>
+          <select id="fYear" class="filter"></select>
+          <button id="clearFilters" class="link-btn" data-s="clearFilters"></button>
+        </div>
+      </div>
+
+      <div class="result-count" id="resultCount"></div>
+      <div class="grid" id="grid"></div>
+
+      <div class="empty" id="empty" hidden>
+        <div class="empty-title" data-s="emptyTitle"></div>
+        <div class="empty-body" id="emptyBody"></div>
+      </div>
+    </section>
+
+    <!-- ---------------------------------------------------------------- -->
+    <!-- Detail                                                            -->
+    <!-- ---------------------------------------------------------------- -->
+    <section id="viewDetail" class="view" hidden>
+      <button class="link-btn back" id="detailBack" data-s="back"></button>
+      <div id="detailBody"></div>
+    </section>
+
+    <!-- ---------------------------------------------------------------- -->
+    <!-- Form                                                              -->
+    <!-- ---------------------------------------------------------------- -->
+    <section id="viewForm" class="view" hidden>
+      <button class="link-btn back" id="formBack" data-s="back"></button>
+
+      <h1 class="page-title" id="formTitle"></h1>
+      <p class="filling-as" id="fillingInAs"></p>
+      <p class="save-state" id="saveState" aria-live="polite"></p>
+      <p class="page-intro" id="formIntro"></p>
+      <p class="note note-lang" id="formLangNote"></p>
+
+      <div class="readiness" id="readiness"></div>
+
+      <form id="form" autocomplete="off">
+        <div class="section">
+          <h2 class="section-title" data-s="sectionCore"></h2>
+          <div id="groupCore"></div>
+        </div>
+
+        <div class="section">
+          <h2 class="section-title" data-s="sectionProof"></h2>
+          <div id="groupProof"></div>
+        </div>
+
+        <div class="section">
+          <h2 class="section-title" data-s="sectionPhotos"></h2>
+          <div id="groupPhotos"></div>
+        </div>
+
+        <div class="section">
+          <button type="button" class="disclosure" id="optionalToggle"></button>
+          <div id="groupOptional" hidden></div>
+        </div>
+
+        <div class="section">
+          <h2 class="section-title" data-s="sectionExtra"></h2>
+          <div id="groupExtra"></div>
+        </div>
+
+        <div class="section" id="marketingSection">
+          <h2 class="section-title" data-s="sectionMarketing"></h2>
+          <div id="groupMarketing"></div>
+        </div>
+
+        <div class="form-actions">
+          <button type="submit" class="btn btn-primary" id="saveBtn" data-s="save"></button>
+          <button type="button" class="btn btn-ghost" id="cancelBtn" data-s="cancel"></button>
+          <span class="form-msg" id="formMsg"></span>
+        </div>
+      </form>
+    </section>
+
+    <div class="loading" id="loading" data-s="loading"></div>
+  </main>
+
+  <div class="toast" id="toast" hidden></div>
+
+  <script>var PRELOAD_STRINGS = {"en":{"dir":"ltr","lang":"en","appTitle":"Entag Case Study Library","headerTitle":"Case Study Library","appSubtitle":"Every delivered job we can turn into proof.","navLibrary":"Library","navAdd":"Add case study","langToggle":"العربية","navBack":"Back","navForward":"Forward","signedInAs":"Signed in as","signInTitle":"Sign in","signInIntro":"Type the personal code marketing gave you. You only need to do this once on each phone or laptop.","signInPlaceholder":"Your code, like K7PQ2XRM","signInButton":"Sign in","signInWrong":"That code didn't work. Check it and try again, or ask marketing for yours.","signInTooMany":"Too many wrong codes were tried. Please wait 10 minutes and try again.","signOut":"Sign out","signOutConfirm":"Sign out on this device? You will need your code or your personal link to get back in.","searchPlaceholder":"Search client, part, material…","filterCapability":"Capability","filterIndustry":"Industry","filterStatus":"Status","filterYear":"Year","filterAll":"All","clearFilters":"Clear filters","countOne":"case study","countMany":"case studies","emptyTitle":"Nothing here yet","emptyBody":"Add the first case study and it will show up here.","emptyFiltered":"No case study matches those filters.","loading":"Loading…","back":"Back to library","edit":"Edit","delete":"Delete","deleteConfirm":"Delete this case study for everyone? Its photos go to the Drive bin for 30 days, so marketing can still bring it back if it was a mistake.","deleted":"Deleted","writePost":"Write a post","copied":"Copied.","postTitle":"Post drafts","postIntro":"Three ready drafts built from this case study, best bet first. Copy one, read it through, then post.","postLinkedIn":"LinkedIn","postInstagram":"Instagram","postBest":"Best bet","postSpecificity":"Leads with the number","postLoss":"Leads with the problem","postProof":"Leads with the client","postWhySpecificity":"Engineers and buyers stop scrolling for a concrete number.","postWhyLoss":"Makes the reader feel the cost of the problem first.","postWhyProof":"Lets the client do the convincing.","postCopy":"Copy post","postCopyComment":"Copy first comment","postCopyLink":"Copy link","postFirstComment":"Post this as the first comment. Links inside the post itself get shown to fewer people.","postBioLink":"Put this link in your Instagram bio:","postNoNumber":"There is no before and after number yet, so the strongest kind of post is missing. Add the numbers with Edit.","postMachineText":"Parts of this were machine-translated. Read it through and fix the wording before posting.","postBlocked":"This client is internal only, so there are no posts. Ask the client first, then change \"Can we name them publicly?\" with Edit.","tplHookNumber":"{metric}: from {before} to {after}.","tplNeeded":"{who} needed {part}.","tplWhere":"That's where {whoMid} was when they came to Entag.","tplResult":"The result: {metricMid} went from {before} to {after}.","tplCameWith":"{who} came to us for {part}.","tplHow":"How {whoMid} got {part} made.","tplMoq":"No minimum order quantity, even for a small run like this one.","tplRepeat":"They've ordered again since.","tplCtaLinkedIn":"Have a part like this? Upload your drawing and get a quote within 24 hours. Link in the first comment.","tplCtaInstagram":"Have a part like this? Upload your drawing and get a quote within 24 hours. Link in bio.","tplComment":"Get a quote for your part: {link}","photos":"Photos","loadingPhotos":"Loading photos…","noPhotos":"No photos on this one yet.","videos":"Videos","noVideos":"No videos on this one.","videoPrompt":"Drop videos here, or click to choose","videoHint":"Up to 1 minute each. Add as many as you like.","videoWaiting":"Waiting for the case study to save","videoQueued":"Waiting its turn","videoUploading":"Uploading {pct}%","videoShrinking":"Making it smaller first: {pct}%","videoKeepOpen":"Videos are made smaller, then uploaded. Keep this page open until they're done.","videoDone":"Saved","videoFailed":"Didn't upload. Check your internet.","videoRetry":"Try again","videoStillUploading":"still uploading ({pct}%)","videoOpenNote":"Videos open in Google Drive, for whoever is signed in to the company Google account.","anonFlag":"Name hidden in posts","photoNote":"Click a photo to open it in Google Drive, where you can download it. You can also right-click a photo to copy or save it.","openFolder":"Open this case study's folder in Google Drive","folderNote":"The full write-up (a Google Doc), the photos and the videos are all in there.","driveNote":"Drive opens for whoever is signed in to the company Google account.","videoTooLong":"{names}: longer than 1 minute. Please trim it and add it again.","videoNotVideo":"{names}: not a video.","videoCantCheck":"Couldn't check how long {names} is, and it's too big to take a chance. Please add a shorter clip.","addedBy":"Added by","lastEdited":"Last edited","viewIn":"Read in","autoTranslated":"Auto-translated, not reviewed","humanWritten":"Written by the team","internalOnly":"Internal only, do not publish","anonymisedClient":"A {industry} manufacturer","fillingInAs":"Filling in as: {name}","filesPrompt":"Drop drawings or files here, or click to choose","filesHint":"Any 2D or 3D file (PDF, DWG, DXF, STEP, STL...), up to 1 GB each.","files":"Drawings and files","noFiles":"No drawings or files on this one.","fileNote":"Files open in Google Drive, for whoever is signed in to the company Google account. You can download them from there.","fileKeepOpen":"Files are uploading. Keep this page open until they're done.","fileTooBig":"{names}: empty or bigger than 1 GB, so it can't be added.","formTitleNew":"Add a case study","formTitleEdit":"Edit case study","formIntro":"The core questions take about 5 minutes. Anything under “More detail” is optional. Fill what you know and leave the rest.","formLangNote":"Write in English or Arabic, whichever is easier. The other language fills in automatically.","sectionCore":"The essentials","sectionProof":"The proof","sectionPhotos":"Photos","sectionOptional":"More detail (optional)","sectionExtra":"Anything else","sectionMarketing":"Marketing use","docNote":"This Doc fills itself in from the library every time someone saves, so anything typed here gets replaced. To change something, edit the case study in the","docStatus":"Status","docAddedBy":"Added by","docUpdated":"Last changed by","docEmpty":"Not filled in yet","docAuto":"auto-translated, not reviewed","docInternal":"internal only, never published","docInFolder":"In this folder:","docArrow":"→","optionalToggleShow":"Show more detail","optionalToggleHide":"Hide more detail","save":"Save case study","saving":"Saving…","cancel":"Cancel","needToPublish":"Needed to publish","optional":"Optional","selectPlaceholder":"Choose one…","otherPlaceholder":"Type it here","multiHint":"Pick as many as apply","draftRestored":"Restored what you had typed before.","draftCleared":"Draft cleared.","uploadPrompt":"Drop photos here, or click to choose","uploadHint":"Big photos are shrunk automatically, so phone pictures are fine.","uploadRemove":"Remove","uploadProcessing":"Preparing photos…","uploadUnreadable":"Couldn't open {names}. Please use a JPG or PNG photo.","saveStateSaving":"Saving…","saveStateSaved":"All changes saved","saveStateEmpty":"Nothing is required. Fill in what you know, and everything saves by itself.","saveStateFailed":"Not saved yet. Check your internet. Trying again…","postSample":"This is the example case study, not a real job. Use it to see how posts come out, but don't publish it.","monthNames":"January,February,March,April,May,June,July,August,September,October,November,December","exBefore_lead_time":"3 weeks","exAfter_lead_time":"6 days","exBefore_quote_time":"5 days","exAfter_quote_time":"24 hours","exBefore_cost":"5,000 EGP a piece","exAfter_cost":"3,200 EGP a piece","exBefore_moq":"1,000 pieces","exAfter_moq":"no minimum","exBefore_rejects":"12% rejected","exAfter_rejects":"1% rejected","exBefore_downtime":"10 days stopped","exAfter_downtime":"2 days stopped","readyTitle":"Ready to publish","readyYes":"This one has everything it needs.","readyNo":"Still missing:","statusDraft":"Draft","statusNeedsInfo":"Needs info","statusApproved":"Approved","statusPublished":"Published","errRequired":"Please fill this in.","errPhotoRequired":"At least one photo of the finished part is needed.","errSaveFailed":"Could not save. Nothing was lost, so try again in a moment.","errLoadFailed":"Could not load the library. Refresh the page.","errNotAllowed":"This page is for Entag team accounts only.","emailSubject":"New case study: ","emailIntro":"A new case study was added to the library.","emailOpen":"Open the library","capProblem":"THE PROBLEM","capSolution":"WHAT ENTAG DID","capProof":"THE PROOF","capQuote":"CLIENT QUOTE","capDetails":"DETAILS"},"ar":{"dir":"rtl","lang":"ar","appTitle":"مكتبة دراسات الحالة - Entag","headerTitle":"مكتبة دراسات الحالة","appSubtitle":"كل شغلانة سلمناها ينفع تتحول لدليل نعرضه.","navLibrary":"المكتبة","navAdd":"ضيف دراسة حالة","langToggle":"English","navBack":"رجوع","navForward":"قدّام","signedInAs":"داخل باسم","signInTitle":"تسجيل الدخول","signInIntro":"اكتب الكود الشخصي اللي الماركتينج إدّاهولك. هتعمل كده مرة واحدة بس على كل موبايل أو لابتوب.","signInPlaceholder":"الكود بتاعك، زي K7PQ2XRM","signInButton":"ادخل","signInWrong":"الكود ده مش شغال. اتأكد منه وجرب تاني، أو اطلب الكود بتاعك من الماركتينج.","signInTooMany":"اتجربت أكواد غلط كتير. استنى 10 دقايق وجرب تاني.","signOut":"خروج","signOutConfirm":"تسجّل خروج من الجهاز ده؟ هتحتاج الكود بتاعك أو اللينك الخاص بيك عشان تدخل تاني.","searchPlaceholder":"دور على عميل أو قطعة أو خامة…","filterCapability":"الخدمة","filterIndustry":"المجال","filterStatus":"الحالة","filterYear":"السنة","filterAll":"الكل","clearFilters":"شيل الفلاتر","countOne":"دراسة حالة","countMany":"دراسة حالة","emptyTitle":"لسه مفيش حاجة هنا","emptyBody":"ضيف أول دراسة حالة وهتلاقيها ظهرت هنا.","emptyFiltered":"مفيش دراسة حالة مطابقة للفلاتر دي.","loading":"بيحمل…","back":"رجوع للمكتبة","edit":"تعديل","delete":"امسح","deleteConfirm":"تمسح دراسة الحالة دي عند الكل؟ الصور هتروح سلة درايف لمدة 30 يوم، فالماركتينج تقدر ترجعها لو كان غلط.","deleted":"اتمسحت","writePost":"اكتب بوست منها","copied":"اتنسخ.","postTitle":"مسودات بوستات","postIntro":"3 مسودات جاهزة معمولة من دراسة الحالة دي، الأقوى الأول. انسخ واحدة، اقراها كويس، وبعدين انشرها.","postLinkedIn":"لينكدإن","postInstagram":"إنستجرام","postBest":"الأقوى","postSpecificity":"بتبدأ بالرقم","postLoss":"بتبدأ بالمشكلة","postProof":"بتبدأ بالعميل","postWhySpecificity":"المهندسين والمشترين بيقفوا عند رقم واضح.","postWhyLoss":"بتخلي اللي بيقرا يحس بتمن المشكلة الأول.","postWhyProof":"بتخلي العميل هو اللي يقنع.","postCopy":"انسخ البوست","postCopyComment":"انسخ أول كومنت","postCopyLink":"انسخ اللينك","postFirstComment":"انشر ده كأول كومنت. اللينكات اللي جوه البوست نفسه بتوصل لناس أقل.","postBioLink":"حط اللينك ده في البايو بتاع إنستجرام:","postNoNumber":"لسه مفيش رقم قبل وبعد، فأقوى نوع بوست ناقص. ضيف الأرقام من تعديل.","postMachineText":"أجزاء من الكلام ده مترجمة آلياً. اقراها وظبط الكلام قبل ما تنشر.","postBlocked":"العميل ده للاستخدام الداخلي بس، فمفيش بوستات. اسأل العميل الأول، وبعدين غيّر \"ينفع نذكر اسمهم علناً؟\" من تعديل.","tplHookNumber":"{metric}: من {before} لـ {after}.","tplNeeded":"{who} كانوا محتاجين {part}.","tplWhere":"ده كان الوضع عند {whoMid} لما جولنا.","tplResult":"والنتيجة: {metricMid} بقت {after} بدل {before}.","tplCameWith":"{who} جولنا عشان {part}.","tplHow":"إزاي {whoMid} عملوا {part}.","tplMoq":"من غير حد أدنى للكمية، حتى لو الطلب صغير زي ده.","tplRepeat":"ورجعوا طلبوا مننا تاني بعدها.","tplCtaLinkedIn":"عندك قطعة زي دي؟ ارفع الرسمة وخد عرض سعر في خلال 24 ساعة. اللينك في أول كومنت.","tplCtaInstagram":"عندك قطعة زي دي؟ ارفع الرسمة وخد عرض سعر في خلال 24 ساعة. اللينك في البايو.","tplComment":"اطلب عرض سعر لقطعتك من هنا: {link}","photos":"الصور","loadingPhotos":"بيحمل الصور…","noPhotos":"لسه مفيش صور على دي.","videos":"الفيديوهات","noVideos":"مفيش فيديوهات على دي.","videoPrompt":"ارمي الفيديوهات هنا، أو دوس عشان تختار","videoHint":"لحد دقيقة لكل فيديو. ضيف قد ما تحب.","videoWaiting":"مستني دراسة الحالة تتحفظ","videoQueued":"مستني دوره","videoUploading":"بيترفع {pct}%","videoShrinking":"بنصغّره الأول: {pct}%","videoKeepOpen":"الفيديوهات بتتصغّر الأول وبعدين تترفع. خلي الصفحة مفتوحة لحد ما يخلصوا.","videoDone":"اتحفظ","videoFailed":"مترفعش. شيك على النت.","videoRetry":"جرّب تاني","videoStillUploading":"لسه بيترفع ({pct}%)","videoOpenNote":"الفيديوهات بتفتح على جوجل درايف، لأي حد داخل على حساب جوجل بتاع الشركة.","anonFlag":"الاسم مخفي في البوستات","photoNote":"دوس على أي صورة تفتحها على جوجل درايف وتنزلها من هناك. وممكن كمان تدوس كليك يمين على الصورة عشان تنسخها أو تحفظها.","openFolder":"افتح فولدر دراسة الحالة دي على جوجل درايف","folderNote":"القصة كاملة (ملف جوجل دوكس) والصور والفيديوهات كلهم هناك.","driveNote":"درايف بيفتح لأي حد داخل على حساب جوجل بتاع الشركة.","videoTooLong":"{names}: أطول من دقيقة. قصّه وضيفه تاني.","videoNotVideo":"{names}: ده مش فيديو.","videoCantCheck":"مقدرناش نعرف طول {names}، وهو كبير فمش هنخاطر. ضيف مقطع أقصر.","addedBy":"ضافها","lastEdited":"آخر تعديل","viewIn":"اقرأها بـ","autoTranslated":"ترجمة آلية - محدش راجعها","humanWritten":"مكتوبة من الفريق","internalOnly":"للاستخدام الداخلي بس - متنشرش","anonymisedClient":"شركة في مجال {industry}","fillingInAs":"بتملاها باسم: {name}","filesPrompt":"حط الرسومات أو الملفات هنا، أو دوس عشان تختار","filesHint":"أي ملف 2D أو 3D (PDF، DWG، DXF، STEP، STL...)، لحد 1 جيجا للملف.","files":"الرسومات والملفات","noFiles":"مفيش رسومات أو ملفات على دي.","fileNote":"الملفات بتفتح على Google Drive، لأي حد داخل بحساب Google بتاع الشركة. وتقدر تنزلها من هناك.","fileKeepOpen":"الملفات بتترفع. خلي الصفحة مفتوحة لحد ما يخلصوا.","fileTooBig":"{names}: فاضي أو أكبر من 1 جيجا، فمينفعش يتضاف.","formTitleNew":"ضيف دراسة حالة","formTitleEdit":"تعديل دراسة الحالة","formIntro":"الأسئلة الأساسية بتاخد 5 دقايق تقريباً. أي حاجة تحت \"تفاصيل زيادة\" اختيارية - املا اللي تعرفه وسيب الباقي.","formLangNote":"اكتب بالعربي أو بالإنجليزي، أنهي واحدة أسهل عليك. اللغة التانية هتتملي لوحدها.","sectionCore":"الأساسيات","sectionProof":"الدليل","sectionPhotos":"الصور","sectionOptional":"تفاصيل زيادة (اختياري)","sectionExtra":"أي حاجة تانية","sectionMarketing":"استخدام الماركتينج","docNote":"الملف ده بيتملى لوحده من المكتبة كل ما حد يحفظ، فأي حاجة تتكتب هنا هتتمسح. لو عايز تغير حاجة، عدّل دراسة الحالة في","docStatus":"الحالة","docAddedBy":"ضافها","docUpdated":"آخر تعديل من","docEmpty":"لسه متملتش","docAuto":"ترجمة آلية، محدش راجعها","docInternal":"داخلي بس، عمره ما هيتنشر","docInFolder":"موجودة في الفولدر ده:","docArrow":"←","optionalToggleShow":"ورّيني تفاصيل زيادة","optionalToggleHide":"اخفي التفاصيل الزيادة","save":"احفظ دراسة الحالة","saving":"بيحفظ…","cancel":"إلغاء","needToPublish":"مهمة للنشر","optional":"اختيارية","selectPlaceholder":"اختار واحدة…","otherPlaceholder":"اكتبها هنا","multiHint":"اختار كل اللي ينطبق","draftRestored":"رجعنالك اللي كنت كاتبه قبل كده.","draftCleared":"المسودة اتمسحت.","uploadPrompt":"ارمي الصور هنا، أو دوس عشان تختار","uploadHint":"الصور الكبيرة بتصغر لوحدها، يعني صور الموبايل تمام.","uploadRemove":"شيل","uploadProcessing":"بيجهز الصور…","uploadUnreadable":"مقدرناش نفتح {names}. استخدم صورة JPG أو PNG.","saveStateSaving":"بيحفظ…","saveStateSaved":"كل التغييرات اتحفظت","saveStateEmpty":"مفيش حاجة إجبارية. املا اللي تعرفه، وكل حاجة بتتحفظ لوحدها.","saveStateFailed":"لسه متحفظش. شيك على النت، بنحاول تاني…","postSample":"دي دراسة الحالة المثال، مش شغلانة حقيقية. استخدمها عشان تشوف البوستات بتطلع إزاي، بس متنشرهاش.","monthNames":"يناير,فبراير,مارس,أبريل,مايو,يونيو,يوليو,أغسطس,سبتمبر,أكتوبر,نوفمبر,ديسمبر","exBefore_lead_time":"3 أسابيع","exAfter_lead_time":"6 أيام","exBefore_quote_time":"5 أيام","exAfter_quote_time":"24 ساعة","exBefore_cost":"5,000 جنيه للقطعة","exAfter_cost":"3,200 جنيه للقطعة","exBefore_moq":"1,000 قطعة","exAfter_moq":"من غير حد أدنى","exBefore_rejects":"12% هالك","exAfter_rejects":"1% هالك","exBefore_downtime":"10 أيام وقف","exAfter_downtime":"يومين وقف","readyTitle":"جاهزة للنشر","readyYes":"دي فيها كل اللي محتاجينه.","readyNo":"لسه ناقص:","statusDraft":"مسودة","statusNeedsInfo":"ناقصة معلومات","statusApproved":"متوافق عليها","statusPublished":"اتنشرت","errRequired":"من فضلك املا الخانة دي.","errPhotoRequired":"محتاجين صورة واحدة على الأقل للقطعة بعد ما خلصت.","errSaveFailed":"مقدرناش نحفظ. مضاعش منك حاجة - جرب تاني بعد شوية.","errLoadFailed":"مقدرناش نحمل المكتبة. اعمل ريفريش للصفحة.","errNotAllowed":"الصفحة دي لحسابات فريق Entag بس.","emailSubject":"دراسة حالة جديدة: ","emailIntro":"اتضافت دراسة حالة جديدة في المكتبة.","emailOpen":"افتح المكتبة","capProblem":"المشكلة","capSolution":"إحنا عملنا إيه","capProof":"الدليل","capQuote":"كلام العميل","capDetails":"التفاصيل"}};</script>
+  <script>
+/* Talks to the library's Apps Script by message, in place of google.script.run. */
+(function () {
+  var API = "https://script.google.com/macros/s/AKfycbyXSo-hea6hie2E-m_fCkmd6_-4Nq9-VYvg9Zja5yYBciRuR1r3VaZifuRZQoxlk7lR/exec";
+  var CALLS = ["getBootstrap","getPhotos","saveEntry","deleteEntry","startVideoUpload","uploadVideoChunk","finishVideoUpload"];
+  function send(fn, args, ok, fail) {
+    fetch(API, { method: 'POST', body: JSON.stringify({ fn: fn, args: args }), credentials: 'omit', redirect: 'follow', cache: 'no-store' })
+      .then(function (r) { if (!r.ok) throw new Error('NETWORK'); return r.json(); })
+      .then(function (m) {
+        if (m && m.ok) { if (ok) ok(m.result); return; }
+        if (fail) fail(new Error((m && m.error) || 'FAILED'));
+      }, function () { if (fail) fail(new Error('NETWORK')); });
+  }
+  function runner(ok, fail) {
+    var r = {
+      withSuccessHandler: function (f) { return runner(f, fail); },
+      withFailureHandler: function (f) { return runner(ok, f); }
+    };
+    CALLS.forEach(function (name) {
+      r[name] = function () { send(name, Array.prototype.slice.call(arguments), ok, fail); };
+    });
+    return r;
+  }
+  window.google = { script: {
+    run: runner(null, null),
+    url: { getLocation: function (cb) {
+      var p = {};
+      location.search.replace(/^\?/, '').split('&').forEach(function (kv) {
+        if (!kv) return;
+        var i = kv.indexOf('=');
+        var k = decodeURIComponent(i < 0 ? kv : kv.slice(0, i));
+        p[k] = decodeURIComponent((i < 0 ? '' : kv.slice(i + 1)).replace(/\+/g, ' '));
+      });
+      cb({ parameter: p, hash: location.hash.replace(/^#/, '') });
+    } }
+  } };
+})();
+</script>
+<script>
+/* Entag Case Study Library — everything that happens in the browser. */
+
+var BOOT = null;                 // fields, wording, dropdown lists, entries
+var LANG = 'en';                 // interface language
+var CONTENT_LANG = 'en';         // which language of the content the detail view shows
+var ENTRIES = [];
+var CURRENT = null;              // entry open in the detail view
+var EDITING = null;              // entry being edited, or null for a new one
+var PENDING = {};                // everything typed so far, in both languages
+var NEW_PHOTOS = [];             // [{name, mimeType, dataBase64, preview}]
+var KEPT_PHOTOS = [];            // [{id, name, url}] already on the entry
+var REMOVED_PHOTOS = [];
+var DRAFT_KEY = 'entag_cs_draft';
+var LANG_KEY = 'entag_cs_lang';
+var CODE_KEY = 'entag_cs_code';
+var CODE = '';                   // this person's team code
+var WIRED = false;
+var NAV = makeHistory();
+var POST_OPEN = false;            // is the post-drafts panel open?
+var POST_PLATFORM = 'linkedin';       // screens visited, for Back / Forward
+
+// ---------------------------------------------------------------- helpers
+
+function S(key) {
+  var packs = BOOT ? BOOT.strings : PRELOAD_STRINGS;
+  return (packs[LANG] && packs[LANG][key]) || key;
+}
+
+function FT(key, part) {
+  var t = BOOT.fieldText[key];
+  if (!t) return key;
+  return (t[LANG] && t[LANG][part]) || (t.en && t.en[part]) || key;
+}
+
+function listLabel(listName, value) {
+  var list = BOOT.lists[listName] || [];
+  for (var i = 0; i < list.length; i++) {
+    if (list[i].value === value) return list[i][LANG] || list[i].en;
+  }
+  return value;
+}
+
+/** Label for a chosen option; "Other" shows what the person typed instead. */
+function optionText(entry, key, listName, value) {
+  var typed = String(entry[key + '_other'] || '').trim();
+  if (value === 'other' && typed) return typed;
+  return listLabel(listName, value);
+}
+
+/** Does this question's list have an "Other" option? */
+function hasOther(f) {
+  return (BOOT.lists[f.options] || []).some(function (o) { return o.value === 'other'; });
+}
+
+/** The "type it here" box that appears when Other / Something else is picked. */
+function otherBox(f, entry, prefill) {
+  var input = document.createElement('input');
+  input.type = 'text';
+  input.name = f.key + '_other';
+  input.className = 'other-input';
+  input.placeholder = S('otherPlaceholder');
+  if (prefill && prefill[input.name] !== undefined) input.value = prefill[input.name];
+  else if (entry) input.value = entry[input.name] || '';
+  input.addEventListener('input', onFormChange);
+  return input;
+}
+
+function fieldDef(key) {
+  for (var i = 0; i < BOOT.fields.length; i++) if (BOOT.fields[i].key === key) return BOOT.fields[i];
+  return null;
+}
+
+function el(tag, cls, text) {
+  var n = document.createElement(tag);
+  if (cls) n.className = cls;
+  if (text !== undefined && text !== null) n.textContent = text;
+  return n;
+}
+
+function esc(s) {
+  return String(s == null ? '' : s)
+    .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;');
+}
+
+function toast(msg) {
+  var t = document.getElementById('toast');
+  t.textContent = msg;
+  t.hidden = false;
+  clearTimeout(t._timer);
+  t._timer = setTimeout(function () { t.hidden = true; }, 2600);
+}
+
+/** The side of a bilingual field to show, preferring the requested language. */
+function bilingual(entry, key, lang) {
+  var want = String(entry[key + '_' + lang] || '').trim();
+  var other = lang === 'en' ? 'ar' : 'en';
+  var src = entry[key + '_src'] || '';
+  if (want) return { text: want, auto: src && src !== 'both' && src !== lang };
+  var fallback = String(entry[key + '_' + other] || '').trim();
+  return { text: fallback, auto: false };
+}
+
+// ------------------------------------------------------------------- boot
+
+window.addEventListener('DOMContentLoaded', function () {
+  try { LANG = localStorage.getItem(LANG_KEY) || 'en'; } catch (e) { LANG = 'en'; }
+  try { CODE = localStorage.getItem(CODE_KEY) || ''; } catch (e) { CODE = ''; }
+  wireShell();
+  applyLanguage();
+  // A personal link (the library link + ?code=CODE) signs the person in with nothing
+  // to type, even on a browser that forgets what the page saved.
+  linkCode(function (fromLink) {
+    if (fromLink) {
+      CODE = fromLink;
+      try { localStorage.setItem(CODE_KEY, CODE); } catch (e) {}
+    }
+    if (CODE) loadLibrary(); else showSignIn('');
+  });
+});
+
+/** Calls done(code) with the code in the page's address, or done('') if none. */
+function linkCode(done) {
+  var called = false;
+  var give = function (code) { if (called) return; called = true; done(code); };
+  setTimeout(function () { give(''); }, 3000); // never leave the page waiting
+  try {
+    google.script.url.getLocation(function (loc) {
+      var c = loc && loc.parameter && loc.parameter.code; // not "c": Google reserves it
+      give(c ? String(c).replace(/\s+/g, '').toUpperCase() : '');
+    });
+  } catch (e) { give(''); }
+}
+
+function loadLibrary() {
+  document.getElementById('loading').hidden = false;
+  document.getElementById('viewSignIn').hidden = true;
+  google.script.run
+    .withSuccessHandler(onBoot)
+    .withFailureHandler(onBootFail)
+    .getBootstrap(CODE);
+}
+
+function showSignIn(messageKey) {
+  document.getElementById('loading').hidden = true;
+  ['viewLibrary', 'viewDetail', 'viewForm'].forEach(function (v) {
+    document.getElementById(v).hidden = true;
+  });
+  document.getElementById('tabs').hidden = true;
+  document.getElementById('signOutBtn').hidden = true;
+  document.getElementById('navArrows').hidden = true;
+  document.getElementById('viewSignIn').hidden = false;
+  var msg = document.getElementById('signInMsg');
+  msg.hidden = !messageKey;
+  msg.textContent = messageKey ? S(messageKey) : '';
+  msg.setAttribute('data-key', messageKey || '');
+  document.getElementById('signInCode').focus();
+}
+
+function signIn(ev) {
+  ev.preventDefault();
+  CODE = document.getElementById('signInCode').value.replace(/\s+/g, '').toUpperCase();
+  if (!CODE) return;
+  try { localStorage.setItem(CODE_KEY, CODE); } catch (e) {}
+  loadLibrary();
+}
+
+/** The Sign out button: asks first, so nobody signs out by accident. */
+function askSignOut() {
+  if (window.confirm(S('signOutConfirm'))) signOut();
+}
+
+function signOut() {
+  CODE = '';
+  BOOT = null;
+  try { localStorage.removeItem(CODE_KEY); } catch (e) {}
+  document.getElementById('signInCode').value = '';
+  applyLanguage();
+  showSignIn('');
+}
+
+function onBoot(data) {
+  BOOT = data;
+  ENTRIES = data.entries || [];
+  document.getElementById('loading').hidden = true;
+  document.getElementById('tabs').hidden = false;
+  document.getElementById('signOutBtn').hidden = false;
+  document.getElementById('navArrows').hidden = false;
+  applyLanguage();
+  buildFilters();
+  renderLibrary();
+  NAV = makeHistory();
+  navTo(restoredScreen() || { view: 'library' });
+  if (!WIRED) { wireUp(); WIRED = true; }
+}
+
+function onBootFail(err) {
+  var msg = String(err && err.message || '');
+  if (msg.indexOf('NOT_ALLOWED') > -1) {
+    try { localStorage.removeItem(CODE_KEY); } catch (e) {}
+    CODE = '';
+    showSignIn('signInWrong');
+  } else if (msg.indexOf('TOO_MANY_TRIES') > -1) {
+    showSignIn('signInTooMany');
+  } else {
+    document.getElementById('loading').textContent = S('errLoadFailed');
+  }
+}
+
+// --------------------------------------------------------------- language
+
+function applyLanguage() {
+  var pack = (BOOT ? BOOT.strings : PRELOAD_STRINGS)[LANG];
+  document.body.setAttribute('dir', pack.dir);
+  document.documentElement.setAttribute('lang', pack.lang);
+
+  var nodes = document.querySelectorAll('[data-s]');
+  for (var i = 0; i < nodes.length; i++) {
+    nodes[i].textContent = S(nodes[i].getAttribute('data-s'));
+  }
+  document.getElementById('search').placeholder = S('searchPlaceholder');
+  document.getElementById('signInCode').placeholder = S('signInPlaceholder');
+  document.getElementById('formIntro').textContent = S('formIntro');
+  document.getElementById('formLangNote').textContent = S('formLangNote');
+  document.getElementById('emptyBody').textContent = S('emptyBody');
+  CONTENT_LANG = LANG;
+}
+
+function toggleLanguage() {
+  LANG = LANG === 'en' ? 'ar' : 'en';
+  try { localStorage.setItem(LANG_KEY, LANG); } catch (e) {}
+  applyLanguage();
+  if (!BOOT) {
+    var m = document.getElementById('signInMsg');
+    if (!m.hidden && m.getAttribute('data-key')) m.textContent = S(m.getAttribute('data-key'));
+    return;
+  }
+  buildFilters();
+  renderLibrary();
+  if (!document.getElementById('viewDetail').hidden && CURRENT) openDetail(CURRENT.id);
+  if (!document.getElementById('viewForm').hidden) {
+    mergePending();            // keep what was typed; the other language side survives
+    renderForm(EDITING, PENDING);
+    if (FORM) setSaveState(FORM.state);
+  }
+}
+
+/** Folds what is currently on screen into PENDING without losing the other language. */
+function mergePending() {
+  var values = collectValues();
+  Object.keys(values).forEach(function (k) { PENDING[k] = values[k]; });
+  return PENDING;
+}
+
+// ------------------------------------------------------------------ views
+
+/** The list of screens visited, so Back and Forward work like a browser. */
+function makeHistory() {
+  var stack = [];
+  var pos = -1;
+  function same(a, b) { return !!a && !!b && a.view === b.view && (a.id || null) === (b.id || null); }
+  return {
+    push: function (st) {
+      if (same(stack[pos], st)) return;
+      stack = stack.slice(0, pos + 1);
+      stack.push(st);
+      pos = stack.length - 1;
+    },
+    back: function () { if (pos > 0) pos--; return stack[pos]; },
+    forward: function () { if (pos < stack.length - 1) pos++; return stack[pos]; },
+    canBack: function () { return pos > 0; },
+    canForward: function () { return pos < stack.length - 1; },
+    current: function () { return stack[pos]; }
+  };
+}
+
+// The screen someone is on is kept in the browser, so a refresh drops them
+// back there (the form they were filling in, or the case study they had open).
+var SCREEN_KEY = 'entag_cs_screen';
+
+// Kept for this tab only: a refresh goes back to where you were, but opening the
+// link fresh (a new tab, or the next day) always starts on the library.
+function rememberScreen(st) {
+  try { sessionStorage.setItem(SCREEN_KEY, JSON.stringify({ view: st.view, id: st.id || null })); } catch (e) {}
+}
+
+function restoredScreen() {
+  try {
+    var st = JSON.parse(sessionStorage.getItem(SCREEN_KEY) || 'null');
+    if (!st || (st.id && !findEntry(st.id))) return null; // e.g. deleted meanwhile
+    return st;
+  } catch (e) { return null; }
+}
+
+/** Go to a screen and remember it. */
+function navTo(st) {
+  NAV.push(st);
+  applyState(st);
+}
+
+/** Draw a screen without touching the history. */
+function applyState(st) {
+  leaveForm();
+  if (st.view === 'detail' && findEntry(st.id)) openDetail(st.id);
+  else if (st.view === 'form' && st.id && findEntry(st.id)) startEdit(findEntry(st.id));
+  else if (st.view === 'form' && !st.id) startNew();
+  else show('viewLibrary');
+  rememberScreen(st);
+  updateNavButtons();
+}
+
+function findEntry(id) {
+  return ENTRIES.filter(function (e) { return e.id === id; })[0] || null;
+}
+
+function updateNavButtons() {
+  document.getElementById('navBack').disabled = !NAV.canBack();
+  document.getElementById('navForward').disabled = !NAV.canForward();
+}
+
+function navBack() { applyState(NAV.back()); }
+function navForward() { applyState(NAV.forward()); }
+
+
+function show(view) {
+  ['viewLibrary', 'viewDetail', 'viewForm'].forEach(function (v) {
+    document.getElementById(v).hidden = (v !== view);
+  });
+  document.getElementById('tabLibrary').classList.toggle('is-active', view === 'viewLibrary');
+  document.getElementById('tabAdd').classList.toggle('is-active', view === 'viewForm');
+  window.scrollTo(0, 0);
+}
+
+// ---------------------------------------------------------------- filters
+
+function buildFilters() {
+  fillFilter('fCapability', 'capability', S('filterCapability'));
+  fillFilter('fIndustry', 'industry', S('filterIndustry'));
+  fillFilter('fStatus', 'status', S('filterStatus'));
+
+  var years = {};
+  ENTRIES.forEach(function (e) {
+    var y = String(e.delivery_month || '').substring(0, 4);
+    if (y) years[y] = true;
+  });
+  var sel = document.getElementById('fYear');
+  var keep = sel.value;
+  sel.innerHTML = '';
+  sel.appendChild(new Option(S('filterYear') + ': ' + S('filterAll'), ''));
+  Object.keys(years).sort().reverse().forEach(function (y) { sel.appendChild(new Option(y, y)); });
+  sel.value = keep;
+}
+
+function fillFilter(id, listName, label) {
+  var sel = document.getElementById(id);
+  var keep = sel.value;
+  sel.innerHTML = '';
+  sel.appendChild(new Option(label + ': ' + S('filterAll'), ''));
+  (BOOT.lists[listName] || []).forEach(function (o) {
+    sel.appendChild(new Option(o[LANG] || o.en, o.value));
+  });
+  sel.value = keep;
+}
+
+// ---------------------------------------------------------------- library
+
+function filtered() {
+  var q = document.getElementById('search').value.trim().toLowerCase();
+  var cap = document.getElementById('fCapability').value;
+  var ind = document.getElementById('fIndustry').value;
+  var st = document.getElementById('fStatus').value;
+  var yr = document.getElementById('fYear').value;
+
+  return ENTRIES.filter(function (e) {
+    if (cap && String(e.capabilities || '').indexOf(cap) === -1) return false;
+    if (ind && e.industry !== ind) return false;
+    if (st && e.status !== st) return false;
+    if (yr && String(e.delivery_month || '').substring(0, 4) !== yr) return false;
+    if (!q) return true;
+    var hay = [
+      e.client_name, e.part_made_en, e.part_made_ar, e.material_en, e.material_ar,
+      e.problem_en, e.problem_ar, e.solution_en, e.solution_ar, e.id
+    ].join(' ').toLowerCase();
+    return hay.indexOf(q) > -1;
+  });
+}
+
+function renderLibrary() {
+  var rows = filtered();
+  var grid = document.getElementById('grid');
+  var empty = document.getElementById('empty');
+  grid.innerHTML = '';
+
+  document.getElementById('resultCount').textContent =
+    rows.length + ' ' + (rows.length === 1 ? S('countOne') : S('countMany'));
+
+  if (!rows.length) {
+    empty.hidden = false;
+    document.getElementById('emptyBody').textContent =
+      ENTRIES.length ? S('emptyFiltered') : S('emptyBody');
+    return;
+  }
+  empty.hidden = true;
+
+  rows.sort(function (a, b) {
+    return String(b.delivery_month || '').localeCompare(String(a.delivery_month || ''));
+  });
+
+  rows.forEach(function (e) { grid.appendChild(card(e)); });
+}
+
+function card(e) {
+  var c = el('div', 'card');
+  c.addEventListener('click', function () { navTo({ view: 'detail', id: e.id }); });
+
+  var body = el('div', 'card-body');
+  // The library is internal, so it always shows the real name. Posts still hide it.
+  body.appendChild(el('div', 'card-client', e.client_name || ''));
+  if (e.usage_permission === 'anonymous') body.appendChild(el('span', 'flag anon', S('anonFlag')));
+  body.appendChild(el('div', 'card-part', bilingual(e, 'part_made', LANG).text));
+
+  var cardBefore = bilingual(e, 'metric_before', LANG).text;
+  var cardAfter = bilingual(e, 'metric_after', LANG).text;
+  if (e.metric_type && cardBefore && cardAfter) {
+    var m = el('div', 'card-metric');
+    m.innerHTML = esc(listLabel('metric', e.metric_type)) + ': ' +
+      esc(cardBefore) + ' <b>' + esc(S('docArrow')) + '</b> ' + esc(cardAfter); // → in English, ← in Arabic
+    body.appendChild(m);
+  }
+
+  var foot = el('div', 'card-foot');
+  var status = e.status || 'draft';
+  foot.appendChild(el('span', 'badge ' + status, S('status' + statusKey(status))));
+  String(e.capabilities || '').split(',').slice(0, 2).forEach(function (v) {
+    v = v.trim();
+    if (v) foot.appendChild(el('span', 'chip', listLabel('capability', v)));
+  });
+  body.appendChild(foot);
+
+  c.appendChild(body);
+  return c;
+}
+
+function statusKey(s) {
+  return { draft: 'Draft', needs_info: 'NeedsInfo', approved: 'Approved', published: 'Published' }[s] || 'Draft';
+}
+
+// ----------------------------------------------------------------- detail
+
+function openDetail(id) {
+  if (!CURRENT || CURRENT.id !== id) POST_OPEN = false;
+  CURRENT = ENTRIES.filter(function (e) { return e.id === id; })[0];
+  if (!CURRENT) return;
+  CONTENT_LANG = LANG;
+  renderDetail();
+  show('viewDetail');
+  google.script.run.withSuccessHandler(renderPhotos).getPhotos(CODE, id);
+}
+
+/**
+ * The case study page's own English / العربية switch changes everything on it:
+ * the answers, and the headings, labels, picked options and buttons too. The
+ * helpers (S, FT, listLabel) all read LANG, so it's swapped while drawing.
+ */
+function inContentLang(draw) {
+  var ui = LANG;
+  LANG = CONTENT_LANG;
+  try { return draw(); } finally { LANG = ui; }
+}
+
+function renderDetail() { inContentLang(drawDetail); }
+
+/** "2026-08" as "August 2026" / "أغسطس 2026". */
+function monthText(v) {
+  var m = /^(\d{4})-(\d{2})/.exec(String(v || ''));
+  if (!m) return v;
+  var names = S('monthNames').split(',');
+  return (names[Number(m[2]) - 1] || m[2]) + ' ' + m[1];
+}
+
+function drawDetail() {
+  var e = CURRENT;
+  var wrap = document.getElementById('detailBody');
+  wrap.innerHTML = '';
+  wrap.setAttribute('dir', LANG === 'ar' ? 'rtl' : 'ltr');
+  wrap.setAttribute('lang', LANG);
+
+  // -- header
+  var head = el('div', 'detail-head');
+  var titleRow = el('div');
+  titleRow.style.display = 'flex';
+  titleRow.style.justifyContent = 'space-between';
+  titleRow.style.alignItems = 'flex-start';
+  titleRow.style.flexWrap = 'wrap';
+  titleRow.style.gap = '12px';
+
+  var titleBox = el('div');
+  titleBox.appendChild(el('h1', 'detail-title', e.client_name || ''));
+  titleBox.appendChild(el('div', 'detail-sub', bilingual(e, 'part_made', CONTENT_LANG).text));
+  titleRow.appendChild(titleBox);
+
+  var langBox = el('div', 'content-lang');
+  ['en', 'ar'].forEach(function (l) {
+    var b = el('button', l === CONTENT_LANG ? 'is-active' : '', l === 'en' ? 'English' : 'العربية');
+    b.addEventListener('click', function () { CONTENT_LANG = l; renderDetail(); loadPhotosInto(); });
+    langBox.appendChild(b);
+  });
+  titleRow.appendChild(langBox);
+  head.appendChild(titleRow);
+
+  var status = e.status || 'draft';
+  var badges = el('div', 'card-foot');
+  badges.appendChild(el('span', 'badge ' + status, S('status' + statusKey(status))));
+  if (e.usage_permission === 'internal') badges.appendChild(el('span', 'flag internal', S('internalOnly')));
+  head.appendChild(badges);
+
+  var stripBefore = bilingual(e, 'metric_before', CONTENT_LANG).text;
+  var stripAfter = bilingual(e, 'metric_after', CONTENT_LANG).text;
+  if (e.metric_type && stripBefore) {
+    var strip = el('div', 'proof-strip');
+    strip.appendChild(proofItem(listLabel('metric', e.metric_type), stripBefore));
+    strip.appendChild(el('div', 'proof-arrow', S('docArrow'))); // → in English, ← in Arabic
+    strip.appendChild(proofItem('Entag', stripAfter));
+    head.appendChild(strip);
+  }
+
+  var actions = el('div', 'detail-actions');
+  var postBtn = el('button', 'btn btn-primary', S('writePost'));
+  postBtn.addEventListener('click', togglePostPanel);
+  var editBtn = el('button', 'btn btn-ghost', S('edit'));
+  editBtn.addEventListener('click', function () { navTo({ view: 'form', id: e.id }); });
+  var delBtn = el('button', 'btn btn-danger', S('delete'));
+  delBtn.addEventListener('click', function () { doDelete(e); });
+  actions.appendChild(postBtn);
+  actions.appendChild(editBtn);
+  actions.appendChild(delBtn);
+  head.appendChild(actions);
+  wrap.appendChild(head);
+
+  var postPanel = el('div', 'post-panel');
+  postPanel.id = 'postPanel';
+  postPanel.hidden = !POST_OPEN;
+  wrap.appendChild(postPanel);
+  if (POST_OPEN) renderPostPanel();
+
+  // -- story blocks
+  textBlock(wrap, S('capProblem'), e, 'problem');
+  textBlock(wrap, S('capSolution'), e, 'solution');
+
+  if (String(e.difficulty || '').trim()) {
+    var d = el('div', 'block');
+    d.appendChild(el('h3', '', FT('difficulty', 'label')));
+    var chips = el('div', 'card-foot');
+    String(e.difficulty).split(',').forEach(function (v) {
+      v = v.trim();
+      if (v) chips.appendChild(el('span', 'chip', optionText(e, 'difficulty', 'difficulty', v)));
+    });
+    d.appendChild(chips);
+    wrap.appendChild(d);
+  }
+
+  var q = bilingual(e, 'client_quote', CONTENT_LANG);
+  if (q.text) {
+    var qb = el('div', 'block quote');
+    var h = el('h3', '', S('capQuote'));
+    if (q.auto) h.appendChild(el('span', 'flag', S('autoTranslated')));
+    qb.appendChild(h);
+    qb.appendChild(el('p', '', '“' + q.text + '”'));
+    if (e.quote_author) qb.appendChild(el('div', 'attrib', e.quote_author));
+    wrap.appendChild(qb);
+  }
+
+  ['tolerances', 'iterations_dfm', 'qc_checks', 'unusual', 'extra_notes'].forEach(function (k) {
+    if (bilingual(e, k, CONTENT_LANG).text) textBlock(wrap, FT(k, 'label'), e, k);
+  });
+
+  // -- facts
+  var meta = el('div', 'block');
+  meta.appendChild(el('h3', '', S('capDetails')));
+  var grid = el('div', 'meta-grid');
+  metaItem(grid, FT('industry', 'label'), optionText(e, 'industry', 'industry', e.industry));
+  if (e.lead_source) metaItem(grid, FT('lead_source', 'label'), optionText(e, 'lead_source', 'lead_source', e.lead_source));
+  metaItem(grid, FT('capabilities', 'label'), String(e.capabilities || '').split(',')
+    .map(function (v) { return listLabel('capability', v.trim()); }).join(', '));
+  metaItem(grid, FT('material', 'label'), bilingual(e, 'material', CONTENT_LANG).text);
+  metaItem(grid, FT('quantity', 'label'), e.quantity);
+  metaItem(grid, FT('delivery_month', 'label'), monthText(e.delivery_month));
+  metaItem(grid, FT('usage_permission', 'label'), listLabel('usage_permission', e.usage_permission));
+  if (e.repeat_orders) metaItem(grid, FT('repeat_orders', 'label'), listLabel('yes_no_unknown', e.repeat_orders));
+  if (e.supplier_used) metaItem(grid, FT('supplier_used', 'label'), e.supplier_used);
+  if (e.order_value_band) metaItem(grid, FT('order_value_band', 'label'), listLabel('value_band', e.order_value_band));
+  if (e.quote_approved) metaItem(grid, FT('quote_approved', 'label'), listLabel('yes_no_pending', e.quote_approved));
+  metaItem(grid, FT('used_in', 'label'), bilingual(e, 'used_in', LANG).text);
+  metaItem(grid, S('addedBy'), e.created_by);
+  meta.appendChild(grid);
+  wrap.appendChild(meta);
+
+  var noteText = [bilingual(e, 'internal_notes', LANG).text, bilingual(e, 'angle_notes', LANG).text].filter(String);
+  if (noteText.length) {
+    var notes = el('div', 'block');
+    var nh = el('h3', '', FT('internal_notes', 'label'));
+    nh.appendChild(el('span', 'flag internal', S('internalOnly')));
+    notes.appendChild(nh);
+    notes.appendChild(el('p', '', noteText.join('\n\n')));
+    wrap.appendChild(notes);
+  }
+
+  // -- photos
+  var pb = el('div', 'block');
+  pb.id = 'photoBlock';
+  pb.appendChild(el('h3', '', S('photos')));
+  pb.appendChild(el('div', '', S('loadingPhotos')));
+  wrap.appendChild(pb);
+
+  // -- videos
+  var vb = el('div', 'block');
+  vb.id = 'videoBlock';
+  fillVideoBlock(vb, e);
+  wrap.appendChild(vb);
+
+  // -- drawings and other files
+  var dfb = el('div', 'block');
+  dfb.id = 'fileBlock';
+  fillFileBlock(dfb, e);
+  wrap.appendChild(dfb);
+
+  // -- where it's all kept: the case study's own Drive folder
+  if (e.folder_id) {
+    var fb = el('div', 'block');
+    var fl = document.createElement('a');
+    fl.className = 'folder-link';
+    fl.href = 'https://drive.google.com/drive/folders/' + encodeURIComponent(e.folder_id);
+    fl.target = '_blank';
+    fl.rel = 'noopener';
+    fl.textContent = S('openFolder');
+    fb.appendChild(fl);
+    fb.appendChild(el('div', 'video-note', S('folderNote') + ' ' + S('driveNote')));
+    wrap.appendChild(fb);
+  }
+  loadPhotosInto();
+}
+
+function proofItem(label, value) {
+  var i = el('div', 'proof-item');
+  i.appendChild(el('div', 'proof-label', label));
+  i.appendChild(el('div', 'proof-value', value));
+  return i;
+}
+
+function metaItem(grid, label, value) {
+  if (!value) return;
+  var i = el('div', 'meta-item');
+  i.appendChild(el('div', 'meta-label', label));
+  i.appendChild(el('div', 'meta-value', value));
+  grid.appendChild(i);
+}
+
+function textBlock(wrap, heading, entry, key) {
+  var v = bilingual(entry, key, CONTENT_LANG);
+  if (!v.text) return;
+  var b = el('div', 'block');
+  var h = el('h3', '', heading);
+  h.appendChild(el('span', 'flag ' + (v.auto ? '' : 'human'), v.auto ? S('autoTranslated') : S('humanWritten')));
+  b.appendChild(h);
+  b.appendChild(el('p', '', v.text));
+  wrap.appendChild(b);
+}
+
+var PHOTO_CACHE = {};
+
+function renderPhotos(list) {
+  if (!CURRENT) return;
+  PHOTO_CACHE[CURRENT.id] = list || [];
+  loadPhotosInto();
+}
+
+function loadPhotosInto() { inContentLang(drawPhotos); }
+
+function drawPhotos() {
+  var block = document.getElementById('photoBlock');
+  if (!block || !CURRENT) return;
+  var list = PHOTO_CACHE[CURRENT.id];
+  block.innerHTML = '';
+  block.appendChild(el('h3', '', S('photos')));
+  if (!list) { block.appendChild(el('div', '', S('loadingPhotos'))); return; }
+  if (!list.length) { block.appendChild(el('div', '', S('noPhotos'))); return; }
+  var g = el('div', 'gallery');
+  list.forEach(function (p) {
+    // Each photo opens in Google Drive, where it can be downloaded or copied.
+    var a = document.createElement('a');
+    a.href = 'https://drive.google.com/file/d/' + encodeURIComponent(p.id) + '/view';
+    a.target = '_blank';
+    a.rel = 'noopener';
+    a.title = p.name || '';
+    var img = document.createElement('img');
+    img.src = p.url;
+    img.alt = p.name || '';
+    a.appendChild(img);
+    g.appendChild(a);
+  });
+  block.appendChild(g);
+  block.appendChild(el('div', 'photo-note', S('photoNote') + ' ' + S('driveNote')));
+}
+
+// -------------------------------------------------------- caption export
+
+/**
+ * Turns a case study into ready post drafts, best bet first.
+ * Built from Entag's own evidence (Documents/entag_competitor_social_analysis.md and
+ * Entag SEO/07_Templates/entag-caption-prompt-template.md): lead with one concrete
+ * number, then the problem, what Entag did, the proof; LinkedIn links go in the
+ * first comment, Instagram uses "link in bio"; 3 to 4 hashtags; verified claims only.
+ * All sentences come from the wording in Strings.gs, in the language asked for.
+ */
+function buildPosts(entry, lang, platform) {
+  var T = BOOT.strings[lang] || BOOT.strings.en;
+  var out = { blocked: false, warnings: [], drafts: [], bioLink: '' };
+  if (entry.usage_permission === 'internal') { out.blocked = true; return out; }
+
+  var machine = false;
+  function fill(tpl, vars) {
+    return String(tpl).replace(/\{(\w+)\}/g, function (m, k) { return vars[k] !== undefined ? vars[k] : m; });
+  }
+  function sentence(t) {
+    t = String(t || '').trim();
+    if (!t) return '';
+    return /[.!?\u061F\u2026]$/.test(t) ? t : t + '.';
+  }
+  function lower(t) {
+    // Only English has capitals. Keep acronyms (CNC) and names as they are.
+    t = String(t || '').trim();
+    if (lang !== 'en' || t.length < 2 || t.charAt(1) !== t.charAt(1).toLowerCase()) return t;
+    return t.charAt(0).toLowerCase() + t.slice(1);
+  }
+  function label(listName, key, value) {
+    var typed = String(entry[key + '_other'] || '').trim();
+    if (value === 'other' && typed) return typed;
+    var list = BOOT.lists[listName] || [];
+    for (var i = 0; i < list.length; i++) if (list[i].value === value) return list[i][lang] || list[i].en;
+    return String(value || '');
+  }
+  function text(key) {
+    var v = bilingual(entry, key, lang);
+    if (v.text && v.auto) machine = true;
+    return v.text;
+  }
+  function join(parts) {
+    return parts.filter(function (p) { return String(p || '').trim(); }).join('\n\n');
+  }
+
+  // Who: the client's name only if we're allowed to use it.
+  var who, whoMid;
+  if (entry.usage_permission === 'public' && String(entry.client_name || '').trim()) {
+    who = whoMid = String(entry.client_name).trim();
+  } else {
+    var industry = label('industry', 'industry', entry.industry);
+    who = fill(T.anonymisedClient, { industry: lang === 'en' ? industry.toLowerCase() : industry });
+    if (lang === 'en' && /^A [aeiou]/i.test(who)) who = 'An' + who.slice(1);
+    whoMid = lang === 'en' ? who.charAt(0).toLowerCase() + who.slice(1) : who;
+  }
+
+  var metric = label('metric', 'metric_type', entry.metric_type);
+  var vars = {
+    who: who, whoMid: whoMid,
+    part: lower(text('part_made')),
+    metric: metric, metricMid: lang === 'en' ? metric.toLowerCase() : metric,
+    before: String(text('metric_before') || '').trim(),
+    after: String(text('metric_after') || '').trim()
+  };
+  var problem = sentence(text('problem'));
+  var solution = sentence(text('solution'));
+  var hasNumber = !!(entry.metric_type && vars.before && vars.after);
+
+  var quoteBlock = '';
+  if (entry.quote_approved === 'yes') {
+    var quote = text('client_quote');
+    if (quote) {
+      var by = entry.usage_permission === 'public' && String(entry.quote_author || '').trim()
+        ? String(entry.quote_author).trim() : who;
+      // Arabic: start each line with a right-to-left mark so the quote marks and
+      // the "- name" stay on the right side when pasted.
+      var rtl = lang === 'ar' ? '\u200F' : '';
+      quoteBlock = rtl + '\u201C' + quote + '\u201D\n' + rtl + '- ' + by;
+    }
+  }
+
+  var picked = String(entry.difficulty || '').split(',').map(function (v) { return v.trim(); });
+  var moq = picked.indexOf('low_volume') > -1 ? T.tplMoq : '';
+  var repeat = entry.repeat_orders === 'yes' ? T.tplRepeat : '';
+  var result = hasNumber ? fill(T.tplResult, vars) : '';
+
+  var link = 'https://app.entag.co/get-a-quote?utm_source=' + platform +
+    '&utm_medium=social&utm_campaign=case_study_' + String(entry.id || '').toLowerCase();
+  var cta = platform === 'instagram' ? T.tplCtaInstagram : T.tplCtaLinkedIn;
+  var comment = platform === 'linkedin' ? fill(T.tplComment, { link: link }) : '';
+  if (platform === 'instagram') out.bioLink = link;
+
+  var CAP_TAGS = {
+    cnc: '#CNCMachining', sheet_metal: '#SheetMetal', tube: '#TubeFabrication',
+    printing_fdm: '#3DPrinting', printing_sla: '#3DPrinting', printing_slm: '#3DPrinting',
+    finishing: '#MetalFinishing', assembly: '#Assembly'
+  };
+  var tags = ['#Entag', '#OnDemandManufacturing'];
+  var caps = String(entry.capabilities || '').split(',').map(function (v) { return v.trim(); });
+  for (var c = 0; c < caps.length; c++) if (CAP_TAGS[caps[c]]) { tags.push(CAP_TAGS[caps[c]]); break; }
+  tags.push('#CaseStudy');
+  // Arabic: hashtags are English, so mark the line left-to-right or the first # jumps to the end.
+  var tagLine = (lang === 'ar' ? '\u200E' : '') + tags.join(' ');
+
+  if (hasNumber) {
+    out.drafts.push({ principle: 'specificity', text: join([
+      fill(T.tplHookNumber, vars), fill(T.tplNeeded, vars) + ' ' + problem, solution, quoteBlock, moq, cta, tagLine
+    ]) });
+  }
+  out.drafts.push({ principle: 'loss', text: join([
+    problem, fill(T.tplWhere, vars), solution, result, moq, repeat, cta, tagLine
+  ]) });
+  out.drafts.push({ principle: 'proof', text: quoteBlock
+    ? join([quoteBlock, fill(T.tplCameWith, vars) + ' ' + problem, solution, result, repeat, cta, tagLine])
+    : join([fill(T.tplHow, vars), problem, solution, result, repeat, cta, tagLine]) });
+
+  out.drafts.forEach(function (d, i) { d.best = i === 0; d.firstComment = comment; });
+  if (entry.client_name === 'Sample') out.warnings.push('postSample');
+  if (!hasNumber) out.warnings.push('postNoNumber');
+  if (machine) out.warnings.push('postMachineText');
+  return out;
+}
+
+var POST_FOLDS = {};
+
+function togglePostPanel() {
+  POST_OPEN = !POST_OPEN;
+  var panel = document.getElementById('postPanel');
+  if (!panel) return;
+  panel.hidden = !POST_OPEN;
+  if (POST_OPEN) {
+    renderPostPanel();
+    panel.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+}
+
+function renderPostPanel() { inContentLang(drawPostPanel); }
+
+function drawPostPanel() {
+  var panel = document.getElementById('postPanel');
+  if (!panel || !CURRENT) return;
+  panel.innerHTML = '';
+  var r = buildPosts(CURRENT, CONTENT_LANG, POST_PLATFORM);
+
+  var head = el('div', 'post-head');
+  head.appendChild(el('h3', 'post-title', S('postTitle')));
+  var sw = el('div', 'content-lang post-platform');
+  ['linkedin', 'instagram'].forEach(function (pf) {
+    var b = el('button', pf === POST_PLATFORM ? 'is-active' : '', S(pf === 'linkedin' ? 'postLinkedIn' : 'postInstagram'));
+    b.addEventListener('click', function () { POST_PLATFORM = pf; renderPostPanel(); });
+    sw.appendChild(b);
+  });
+  head.appendChild(sw);
+  panel.appendChild(head);
+
+  if (r.blocked) { panel.appendChild(el('div', 'post-warn', S('postBlocked'))); return; }
+  panel.appendChild(el('p', 'post-intro', S('postIntro')));
+  r.warnings.forEach(function (w) { panel.appendChild(el('div', 'post-warn', S(w))); });
+
+  if (r.bioLink) {
+    var bio = el('div', 'post-link');
+    bio.appendChild(el('div', '', S('postBioLink')));
+    bio.appendChild(el('code', '', r.bioLink));
+    var bl = el('button', 'btn btn-ghost btn-sm', S('postCopyLink'));
+    bl.addEventListener('click', function () { copyText(r.bioLink); toast(S('copied')); });
+    bio.appendChild(bl);
+    panel.appendChild(bio);
+  }
+
+  var NAMES = {
+    specificity: ['postSpecificity', 'postWhySpecificity'],
+    loss: ['postLoss', 'postWhyLoss'],
+    proof: ['postProof', 'postWhyProof']
+  };
+  r.drafts.forEach(function (d) {
+    // Folded up so all three fit on one screen. The best bet starts open, and
+    // whatever you open or close stays that way when you switch platform.
+    var card = document.createElement('details');
+    card.className = 'post-card' + (d.best ? ' is-best' : '');
+    var fold = CURRENT.id + ':' + d.principle;
+    card.open = fold in POST_FOLDS ? POST_FOLDS[fold] : !!d.best;
+    card.addEventListener('toggle', function () { POST_FOLDS[fold] = card.open; });
+    var top = el('summary', 'post-card-top');
+    if (d.best) top.appendChild(el('span', 'badge published', S('postBest')));
+    top.appendChild(el('strong', '', S(NAMES[d.principle][0])));
+    var peek = el('span', 'post-peek', d.text.split('\n')[0]);
+    peek.setAttribute('dir', CONTENT_LANG === 'ar' ? 'rtl' : 'ltr');
+    top.appendChild(peek);
+    card.appendChild(top);
+    card.appendChild(el('div', 'post-why', S(NAMES[d.principle][1])));
+    var body = el('div', 'post-text', d.text);
+    body.setAttribute('dir', CONTENT_LANG === 'ar' ? 'rtl' : 'ltr');
+    card.appendChild(body);
+
+    var actions = el('div', 'post-actions');
+    var cp = el('button', 'btn btn-primary', S('postCopy'));
+    cp.addEventListener('click', function () { copyText(d.text); toast(S('copied')); });
+    actions.appendChild(cp);
+    if (d.firstComment) {
+      var cc = el('button', 'btn btn-ghost', S('postCopyComment'));
+      cc.addEventListener('click', function () { copyText(d.firstComment); toast(S('copied')); });
+      actions.appendChild(cc);
+    }
+    card.appendChild(actions);
+
+    if (d.firstComment) {
+      var fc = el('div', 'post-comment');
+      fc.appendChild(el('div', '', S('postFirstComment')));
+      fc.appendChild(el('code', '', d.firstComment));
+      card.appendChild(fc);
+    }
+    panel.appendChild(card);
+  });
+}
+
+function copyText(text) {
+  var ta = document.createElement('textarea');
+  ta.value = text;
+  ta.style.position = 'fixed';
+  ta.style.opacity = '0';
+  document.body.appendChild(ta);
+  ta.select();
+  try { document.execCommand('copy'); } catch (e) {}
+  document.body.removeChild(ta);
+}
+
+// ------------------------------------------------------------------- form
+
+function startNew() {
+  EDITING = null;
+  NEW_PHOTOS = [];
+  KEPT_PHOTOS = [];
+  REMOVED_PHOTOS = [];
+  KEPT_VIDEOS = [];
+  REMOVED_VIDEOS = [];
+  KEPT_FILES = [];
+  REMOVED_FILES = [];
+  var draft = readDraft('');
+  PENDING = draft || {};
+  FORM = newFormSession('', draft ? (draftRecord() || {}).key : '');
+  renderForm(null, draft);
+  setSaveState('needBasics');
+  if (draft) toast(S('draftRestored'));
+  show('viewForm');
+  if (draft && !basicsMissing(draft).length) scheduleAutosave();
+}
+
+function startEdit(entry) {
+  EDITING = entry;
+  NEW_PHOTOS = [];
+  REMOVED_PHOTOS = [];
+  KEPT_VIDEOS = videosOf(entry);
+  REMOVED_VIDEOS = [];
+  KEPT_FILES = filesOf(entry);
+  REMOVED_FILES = [];
+  // Anything typed here that hadn't reached Google yet (e.g. a refresh right
+  // after typing) comes back from the browser's copy.
+  var draft = readDraft(entry.id);
+  PENDING = draft || {};
+  KEPT_PHOTOS = (PHOTO_CACHE[entry.id] || []).slice();
+  FORM = newFormSession(entry.id);
+  renderForm(entry, draft);
+  setSaveState(draft ? 'saving' : 'saved');
+  show('viewForm');
+  if (draft) { toast(S('draftRestored')); scheduleAutosave(); }
+  if (!PHOTO_CACHE[entry.id]) fetchKeptPhotos(entry.id, FORM);
+}
+
+/** Opening Edit straight away (e.g. after a refresh): fetch the photos it already has. */
+function fetchKeptPhotos(id, f) {
+  google.script.run.withSuccessHandler(function (list) {
+    PHOTO_CACHE[id] = list || [];
+    if (FORM !== f) return;
+    (list || []).forEach(function (p) {
+      var known = KEPT_PHOTOS.some(function (k) { return k.id === p.id; });
+      if (!known && REMOVED_PHOTOS.indexOf(p.id) === -1) KEPT_PHOTOS.push(p);
+    });
+    renderThumbs();
+    updateReadiness();
+  }).getPhotos(CODE, id);
+}
+
+function renderForm(entry, prefill) {
+  document.getElementById('formTitle').textContent = entry ? S('formTitleEdit') : S('formTitleNew');
+  document.getElementById('fillingInAs').textContent = S('fillingInAs').replace('{name}', personName(BOOT.user));
+  document.getElementById('marketingSection').hidden = !entry;
+
+  var groups = { core: 'groupCore', proof: 'groupProof', photos: 'groupPhotos', optional: 'groupOptional', extra: 'groupExtra', marketing: 'groupMarketing' };
+  Object.keys(groups).forEach(function (g) { document.getElementById(groups[g]).innerHTML = ''; });
+
+  BOOT.fields.forEach(function (f) {
+    var host = document.getElementById(groups[f.group]);
+    if (!host) return;
+    var node = buildField(f, entry, prefill);
+    if (f.key === 'metric_before') {
+      var pair = el('div', 'pair');
+      pair.id = 'metricPair';
+      host.appendChild(pair);
+      pair.appendChild(node);
+    } else if (f.key === 'metric_after' && document.getElementById('metricPair')) {
+      document.getElementById('metricPair').appendChild(node);
+    } else {
+      host.appendChild(node);
+    }
+  });
+
+  var toggle = document.getElementById('optionalToggle');
+  var box = document.getElementById('groupOptional');
+  box.hidden = true;
+  toggle.textContent = S('optionalToggleShow');
+
+  updateReadiness();
+  document.getElementById('formMsg').textContent = '';
+}
+
+/** "omar" in the Team tab shows as "Omar". */
+function personName(name) {
+  name = String(name || '').trim();
+  return name.charAt(0).toUpperCase() + name.slice(1);
+}
+
+function buildField(f, entry, prefill) {
+  var wrap = el('div', 'field');
+  wrap.setAttribute('data-key', f.key);
+
+  var label = el('label', 'field-label', FT(f.key, 'label'));
+  // Nothing has to be filled in to save; these are what a post will need.
+  label.appendChild(el('span', f.required ? 'field-req' : 'field-opt',
+    f.required ? S('needToPublish') : S('optional')));
+  wrap.appendChild(label);
+  var help = el('div', 'field-help', isMetricSide(f.key) ? metricHelp(f.key) : FT(f.key, 'help'));
+  if (isMetricSide(f.key)) help.setAttribute('data-metric-help', f.key);
+  wrap.appendChild(help);
+
+  var stored = f.bilingual ? (f.key + '_' + LANG) : f.key;
+  var value = '';
+  if (prefill && prefill[stored] !== undefined) value = prefill[stored];
+  else if (entry) value = entry[stored] || '';
+
+  if (f.bilingual && entry) {
+    var side = bilingual(entry, f.key, LANG);
+    if (side.auto && !value) value = side.text;
+    if (side.auto) wrap.appendChild(el('span', 'flag', S('autoTranslated')));
+  }
+
+  if (f.type === 'text' || f.type === 'month') {
+    var input = document.createElement('input');
+    input.type = f.type === 'month' ? 'month' : 'text';
+    input.name = stored;
+    input.value = value;
+    input.addEventListener('input', onFormChange);
+    wrap.appendChild(input);
+
+  } else if (f.type === 'textarea') {
+    var ta = document.createElement('textarea');
+    ta.name = stored;
+    ta.value = value;
+    ta.addEventListener('input', onFormChange);
+    wrap.appendChild(ta);
+
+  } else if (f.type === 'select') {
+    var sel = document.createElement('select');
+    sel.name = stored;
+    sel.appendChild(new Option(S('selectPlaceholder'), ''));
+    (BOOT.lists[f.options] || []).forEach(function (o) {
+      sel.appendChild(new Option(o[LANG] || o.en, o.value));
+    });
+    sel.value = value;
+    sel.addEventListener('change', onFormChange);
+    wrap.appendChild(sel);
+    if (hasOther(f)) {
+      var otherSel = otherBox(f, entry, prefill);
+      otherSel.hidden = sel.value !== 'other';
+      sel.addEventListener('change', function () {
+        otherSel.hidden = sel.value !== 'other';
+        if (!otherSel.hidden) otherSel.focus();
+      });
+      wrap.appendChild(otherSel);
+    }
+
+  } else if (f.type === 'multi') {
+    var chosen = String(value || '').split(',').map(function (v) { return v.trim(); });
+    var box = el('div', 'checks');
+    box.setAttribute('data-name', stored);
+    (BOOT.lists[f.options] || []).forEach(function (o) {
+      var lab = el('label', 'check' + (chosen.indexOf(o.value) > -1 ? ' is-on' : ''));
+      var cb = document.createElement('input');
+      cb.type = 'checkbox';
+      cb.value = o.value;
+      cb.checked = chosen.indexOf(o.value) > -1;
+      cb.addEventListener('change', function () {
+        lab.classList.toggle('is-on', cb.checked);
+        onFormChange();
+      });
+      lab.appendChild(cb);
+      lab.appendChild(document.createTextNode(o[LANG] || o.en));
+      box.appendChild(lab);
+    });
+    wrap.appendChild(box);
+    if (hasOther(f)) {
+      var otherMulti = otherBox(f, entry, prefill);
+      var otherCb = box.querySelector('input[value="other"]');
+      otherMulti.hidden = !otherCb.checked;
+      otherCb.addEventListener('change', function () {
+        otherMulti.hidden = !otherCb.checked;
+        if (!otherMulti.hidden) otherMulti.focus();
+      });
+      wrap.appendChild(otherMulti);
+    }
+
+  } else if (f.type === 'files') {
+    wrap.appendChild(buildUpload());
+  } else if (f.type === 'videos') {
+    wrap.appendChild(buildVideoUpload());
+  } else if (f.type === 'documents') {
+    wrap.appendChild(buildFileUpload());
+  }
+
+  wrap.appendChild(el('div', 'field-error', S('errRequired')));
+  return wrap;
+}
+
+// ----------------------------------------------------------------- upload
+
+function buildUpload() {
+  var host = el('div');
+
+  var zone = el('div', 'dropzone');
+  zone.appendChild(el('div', '', S('uploadPrompt')));
+  zone.appendChild(el('div', 'dropzone-hint', S('uploadHint')));
+
+  var input = document.createElement('input');
+  input.type = 'file';
+  input.accept = 'image/*';
+  input.multiple = true;
+  input.style.display = 'none';
+
+  zone.addEventListener('click', function () { input.click(); });
+  zone.addEventListener('dragover', function (ev) { ev.preventDefault(); zone.classList.add('is-over'); });
+  zone.addEventListener('dragleave', function () { zone.classList.remove('is-over'); });
+  zone.addEventListener('drop', function (ev) {
+    ev.preventDefault();
+    zone.classList.remove('is-over');
+    handleFiles(ev.dataTransfer.files);
+  });
+  input.addEventListener('change', function () { handleFiles(input.files); input.value = ''; });
+
+  host.appendChild(zone);
+  host.appendChild(input);
+  host.appendChild(el('div', 'thumbs', ''));
+  host.lastChild.id = 'thumbs';
+  setTimeout(renderThumbs, 0);
+  return host;
+}
+
+function handleFiles(files) {
+  if (!files || !files.length) return;
+  toast(S('uploadProcessing'));
+  var all = Array.prototype.slice.call(files);
+  var isImage = function (f) { return /^image\//.test(f.type); };
+  // Files the browser can't open (e.g. iPhone HEIC photos on a laptop) are named
+  // in a message instead of silently disappearing.
+  var failed = all.filter(function (f) { return !isImage(f); }).map(function (f) { return f.name; });
+  var queue = all.filter(isImage);
+  var pending = queue.length;
+  var session = FORM;
+  PREPARING += queue.length;
+  var finish = function () {
+    renderThumbs();
+    onFormChange();
+    if (failed.length) toast(S('uploadUnreadable').replace('{names}', failed.join(', ')));
+  };
+  if (!pending) { finish(); return; }
+  queue.forEach(function (file) {
+    shrink(file, 1600, 0.82, function (dataUrl) {
+      if (!dataUrl) {
+        failed.push(file.name);
+      } else if (FORM === session) { // not if they've already left this form
+        NEW_PHOTOS.push({
+          name: file.name,
+          mimeType: 'image/jpeg',
+          dataBase64: dataUrl.split(',')[1],
+          preview: dataUrl
+        });
+      }
+      if (--pending === 0) finish();
+      if (--PREPARING === 0) photosReady();
+    });
+  });
+}
+
+// ----------------------------------------------------------------- videos
+// Up to 1 minute each, as many as you like. They go into the case study's Drive
+// folder in pieces, one video at a time, while people keep writing.
+
+var VIDEO_MAX_SECONDS = 60;
+var VIDEO_UNKNOWN_MAX_BYTES = 300 * 1024 * 1024; // length can't be read: only take smaller files
+// 1 MB pieces (a multiple of 256 KB, as Google requires). On the office laptop's
+// connection (about 1 Mbit/s up, measured) an 8 MB piece showed 0% for over a
+// minute; 1 MB moves the bar every few seconds.
+var VIDEO_CHUNK_BYTES = 1024 * 1024;
+// Pieces sent straight from the page to Drive: the bar moves as bytes go, so they
+// can be bigger. 2 MB keeps a save from waiting long behind one.
+var VIDEO_DIRECT_BYTES = 2 * 1024 * 1024;
+
+// Videos are made smaller in the browser before they go up: played muted (no
+// sound comes out, and no click is needed) and recorded again at about 2.5 Mbit/s.
+// Tested in Chrome: a 9.1 MB 1080p clip became 1.7 MB, still 1080p, sound kept,
+// taking about as long as the clip itself. Anything that goes wrong: the
+// original is sent instead.
+var VIDEO_TARGET_BPS = 2500000;
+var VIDEO_SHRINK_ABOVE_BPS = 3500000; // already smaller than this: sent as it is
+
+function shrinkType() {
+  var types = ['video/mp4;codecs=avc1.42E01F,mp4a.40.2', 'video/mp4', 'video/webm;codecs=vp9,opus', 'video/webm;codecs=vp8,opus', 'video/webm'];
+  if (!window.MediaRecorder || !MediaRecorder.isTypeSupported) return '';
+  for (var i = 0; i < types.length; i++) if (MediaRecorder.isTypeSupported(types[i])) return types[i];
+  return '';
+}
+
+/** Calls done(file) with a smaller copy of u.file, or done(null) to send the original. */
+function shrinkVideo(u, onProgress, done) {
+  var type = shrinkType();
+  var bps = u.seconds ? u.size * 8 / u.seconds : Infinity;
+  var v = document.createElement('video');
+  if (!type || !v.captureStream || bps < VIDEO_SHRINK_ABOVE_BPS) return done(null);
+  var url = URL.createObjectURL(u.file);
+  var finished = false, rec = null, parts = [], timer = null;
+  // A clip that stalls (say the page was hidden a long time) is sent as it is.
+  var giveUp = setTimeout(function () { end(null); }, Math.max(30, (u.seconds || 60) * 3) * 1000);
+  var end = function (file) {
+    if (finished) return;
+    finished = true;
+    clearTimeout(giveUp);
+    clearInterval(timer);
+    try { if (rec && rec.state !== 'inactive') rec.stop(); } catch (e) { /* already stopped */ }
+    try { v.pause(); } catch (e) { /* fine */ }
+    URL.revokeObjectURL(url);
+    done(file);
+  };
+  v.muted = true;
+  v.playsInline = true;
+  v.onerror = function () { end(null); };
+  v.onloadedmetadata = function () {
+    try {
+      rec = new MediaRecorder(v.captureStream(), { mimeType: type, videoBitsPerSecond: VIDEO_TARGET_BPS, audioBitsPerSecond: 128000 });
+    } catch (e) { return end(null); }
+    rec.ondataavailable = function (ev) { if (ev.data && ev.data.size) parts.push(ev.data); };
+    rec.onerror = function () { end(null); };
+    rec.onstop = function () {
+      if (finished) return;
+      var blob = new Blob(parts, { type: rec.mimeType || type });
+      if (!blob.size || blob.size >= u.size) return end(null); // not worth it
+      var mime = String(blob.type).split(';')[0];
+      var name = String(u.name).replace(/\.[^.]*$/, '') + (/mp4/.test(mime) ? '.mp4' : '.webm');
+      var file;
+      try { file = new File([blob], name, { type: mime }); } catch (e) { return end(null); }
+      end(file);
+    };
+    v.onended = function () { if (rec.state !== 'inactive') rec.stop(); };
+    var started = function () {
+      rec.start(1000);
+      timer = setInterval(function () {
+        if (u.cancelled) return end(null);
+        if (v.duration) onProgress(Math.min(99, Math.round(100 * v.currentTime / v.duration)));
+      }, 500);
+    };
+    var p = v.play();
+    if (p && p.then) p.then(started, function () { end(null); }); else started();
+  };
+  v.src = url;
+}
+var KEPT_VIDEOS = [];    // [{id, name}] already on the case study in the form
+var REMOVED_VIDEOS = []; // ids to take off on the next save
+var UPLOADS = [];        // videos on their way up, from any form opened since the page loaded
+var VIDEO_BUSY = false;
+
+function videosOf(entry) {
+  var ids = String(entry.video_ids || '').split(',').filter(String);
+  var names = String(entry.video_names || '').split('|');
+  return ids.map(function (id, i) { return { id: id, name: names[i] || id }; });
+}
+
+function videosUploading() {
+  return UPLOADS.some(function (u) { return u.state === 'waiting' || u.state === 'shrinking' || u.state === 'uploading'; });
+}
+
+function buildVideoUpload() {
+  var host = el('div');
+  var zone = el('div', 'dropzone');
+  zone.appendChild(el('div', '', S('videoPrompt')));
+  zone.appendChild(el('div', 'dropzone-hint', S('videoHint')));
+
+  var input = document.createElement('input');
+  input.type = 'file';
+  input.accept = 'video/*';
+  input.multiple = true;
+  input.style.display = 'none';
+
+  zone.addEventListener('click', function () { input.click(); });
+  zone.addEventListener('dragover', function (ev) { ev.preventDefault(); zone.classList.add('is-over'); });
+  zone.addEventListener('dragleave', function () { zone.classList.remove('is-over'); });
+  zone.addEventListener('drop', function (ev) {
+    ev.preventDefault();
+    zone.classList.remove('is-over');
+    handleVideos(ev.dataTransfer.files);
+  });
+  input.addEventListener('change', function () { handleVideos(input.files); input.value = ''; });
+
+  host.appendChild(zone);
+  host.appendChild(input);
+  var list = el('div', 'video-list');
+  list.id = 'videoList';
+  host.appendChild(list);
+  setTimeout(renderVideoList, 0);
+  return host;
+}
+
+// ------------------------------------------------------------------ files
+// Drawings, CAD and any other document (PDF, DWG, DXF, STEP, STL...). They take
+// the same road as videos, without the shrinking or the length check.
+
+var FILE_MAX_BYTES = 1024 * 1024 * 1024; // the server's limit too
+var KEPT_FILES = [];    // [{id, name}] already on the case study in the form
+var REMOVED_FILES = []; // ids to take off on the next save
+
+function filesOf(entry) {
+  var ids = String(entry.file_ids || '').split(',').filter(String);
+  var names = String(entry.file_names || '').split('|');
+  return ids.map(function (id, i) { return { id: id, name: names[i] || id }; });
+}
+
+function buildFileUpload() {
+  var host = el('div');
+  var zone = el('div', 'dropzone');
+  zone.appendChild(el('div', '', S('filesPrompt')));
+  zone.appendChild(el('div', 'dropzone-hint', S('filesHint')));
+
+  var input = document.createElement('input');
+  input.type = 'file';
+  input.multiple = true;
+  input.style.display = 'none';
+
+  zone.addEventListener('click', function () { input.click(); });
+  zone.addEventListener('dragover', function (ev) { ev.preventDefault(); zone.classList.add('is-over'); });
+  zone.addEventListener('dragleave', function () { zone.classList.remove('is-over'); });
+  zone.addEventListener('drop', function (ev) {
+    ev.preventDefault();
+    zone.classList.remove('is-over');
+    handleDocs(ev.dataTransfer.files);
+  });
+  input.addEventListener('change', function () { handleDocs(input.files); input.value = ''; });
+
+  host.appendChild(zone);
+  host.appendChild(input);
+  var list = el('div', 'video-list');
+  list.id = 'fileList';
+  host.appendChild(list);
+  setTimeout(renderVideoList, 0);
+  return host;
+}
+
+function handleDocs(files) {
+  var all = Array.prototype.slice.call(files || []);
+  if (!all.length) return;
+  var tooBig = [];
+  all.forEach(function (file) {
+    if (!file.size || file.size > FILE_MAX_BYTES) { tooBig.push(file.name); return; }
+    UPLOADS.push({
+      kind: 'file', shrunk: true,
+      file: file, name: file.name, size: file.size, mimeType: file.type || '', seconds: null,
+      form: FORM, entryId: (FORM && FORM.id) || '', state: 'waiting', progress: 0,
+      session: '', next: 0, tries: 0
+    });
+  });
+  if (tooBig.length) toast(S('fileTooBig').replace('{names}', tooBig.join(', ')));
+  uploadsAdded();
+}
+
+/** A new case study is saved as soon as something is added to it, so uploads can start. */
+function uploadsAdded() {
+  renderVideoList();
+  if (FORM && !FORM.id) scheduleAutosave();
+  pumpVideos();
+}
+
+/** How long a video is, in seconds, or null if the browser can't tell. */
+function readVideoSeconds(file, done) {
+  var v = document.createElement('video');
+  var url = URL.createObjectURL(file);
+  var finished = false;
+  var end = function (s) {
+    if (finished) return;
+    finished = true;
+    URL.revokeObjectURL(url);
+    done(s);
+  };
+  v.preload = 'metadata';
+  v.onloadedmetadata = function () { end(isFinite(v.duration) ? v.duration : null); };
+  v.onerror = function () { end(null); };
+  setTimeout(function () { end(null); }, 8000);
+  v.src = url;
+}
+
+function handleVideos(files) {
+  var all = Array.prototype.slice.call(files || []);
+  if (!all.length) return;
+  var form = FORM;
+  var notVideo = [], tooLong = [], unknown = [];
+  var pending = all.length;
+  var finish = function () {
+    if (--pending) return;
+    var msgs = [];
+    if (notVideo.length) msgs.push(S('videoNotVideo').replace('{names}', notVideo.join(', ')));
+    if (tooLong.length) msgs.push(S('videoTooLong').replace('{names}', tooLong.join(', ')));
+    if (unknown.length) msgs.push(S('videoCantCheck').replace('{names}', unknown.join(', ')));
+    if (msgs.length) toast(msgs.join(' '));
+    uploadsAdded();
+  };
+  all.forEach(function (file) {
+    if (!/^video\//.test(file.type)) { notVideo.push(file.name); finish(); return; }
+    readVideoSeconds(file, function (seconds) {
+      if (seconds !== null && seconds > VIDEO_MAX_SECONDS + 1) tooLong.push(file.name);
+      else if (seconds === null && file.size > VIDEO_UNKNOWN_MAX_BYTES) unknown.push(file.name);
+      else if (FORM === form) {
+        UPLOADS.push({
+          file: file, name: file.name, size: file.size, mimeType: file.type, seconds: seconds,
+          form: form, entryId: (form && form.id) || '', state: 'waiting', progress: 0,
+          session: '', next: 0, tries: 0
+        });
+      }
+      finish();
+    });
+  });
+}
+
+/** Starts the next video that's ready to go up (one at a time). */
+function pumpVideos() {
+  if (VIDEO_BUSY) { renderVideoList(); return; }
+  var u = UPLOADS.filter(function (x) {
+    if (x.state !== 'waiting') return false;
+    if (!x.entryId && x.form && x.form.id) x.entryId = x.form.id; // saved since it was added
+    return !!x.entryId;
+  })[0];
+  if (u) uploadVideo(u); else renderVideoList();
+}
+
+function uploadVideo(u) {
+  VIDEO_BUSY = true;
+  u.state = 'uploading';
+  renderVideoList();
+  var done = function () { VIDEO_BUSY = false; renderVideoList(); pumpVideos(); };
+  var retry = function (again) {
+    if (u.cancelled) return done();
+    if (++u.tries < 4) { setTimeout(again, 3000); return; }
+    u.state = 'failed';
+    done();
+  };
+  var signedOut = function (err) {
+    if (String(err && err.message || '').indexOf('NOT_ALLOWED') === -1) return false;
+    signOut();
+    return true;
+  };
+  var sendPiece = function () {
+    if (u.cancelled) return done();
+    // A save goes first, so the two don't fight over a slow connection.
+    if ((FORM && FORM.busy) || (u.form && u.form.busy)) { setTimeout(sendPiece, 400); return; }
+    if (u.direct !== false) return sendDirect();
+    var reader = new FileReader();
+    reader.onload = function () {
+      google.script.run
+        .withSuccessHandler(function (res) {
+          u.tries = 0;
+          if (!res.done) {
+            u.next = res.next;
+            u.progress = Math.min(99, Math.round(100 * u.next / u.size));
+            renderVideoList();
+            refreshVideoBlock();
+            sendPiece();
+            return;
+          }
+          u.state = 'done';
+          u.progress = 100;
+          videoFinished(u, res);
+          done();
+        })
+        .withFailureHandler(function (err) { if (!signedOut(err)) retry(sendPiece); })
+        .uploadVideoChunk(CODE, u.entryId, u.session, u.next, u.size, String(reader.result).split(',')[1] || '', u.kind || '');
+    };
+    reader.onerror = function () { retry(sendPiece); };
+    reader.readAsDataURL(u.file.slice(u.next, Math.min(u.next + VIDEO_CHUNK_BYTES, u.size)));
+  };
+  // Straight to Drive from the page: no detour through the script, a third less
+  // data, and the bar moves as the bytes go. If Drive won't take it from the page
+  // (the first piece fails), the video goes the old way, through the script.
+  var drawn = 0;
+  var drawSoon = function () {
+    var now = new Date().getTime();
+    if (now - drawn < 300) return;
+    drawn = now;
+    renderVideoList();
+    refreshVideoBlock();
+  };
+  var directFailed = function () {
+    if (u.cancelled) return done();
+    if (!u.directOk) { u.direct = false; return sendPiece(); }
+    retry(askDrive); // a blip: ask Drive how much it has, then carry on
+  };
+  var driveReplied = function (xhr, failed) {
+    if (xhr.status === 308) { // "got it, send the next piece"
+      u.directOk = true;
+      u.tries = 0;
+      var m = /bytes=0-(\d+)/.exec(xhr.getResponseHeader('Range') || '');
+      u.next = m ? Number(m[1]) + 1 : 0;
+      u.progress = Math.min(99, Math.round(100 * u.next / u.size));
+      renderVideoList();
+      refreshVideoBlock();
+      return sendPiece();
+    }
+    if (xhr.status === 200 || xhr.status === 201) { // the whole video is in
+      var file = {};
+      try { file = JSON.parse(xhr.responseText); } catch (e) { /* no id: handled below */ }
+      if (!file.id) return failed();
+      u.directOk = true;
+      return finishDirect(file.id);
+    }
+    failed();
+  };
+  var sendDirect = function () {
+    var from = u.next, to = Math.min(u.next + VIDEO_DIRECT_BYTES, u.size);
+    var xhr = new XMLHttpRequest();
+    try {
+      xhr.open('PUT', u.session);
+      xhr.setRequestHeader('Content-Range', 'bytes ' + from + '-' + (to - 1) + '/' + u.size);
+    } catch (e) { return directFailed(); }
+    xhr.upload.onprogress = function (ev) {
+      u.progress = Math.min(99, Math.round(100 * (from + ev.loaded) / u.size));
+      drawSoon();
+    };
+    xhr.onload = function () { driveReplied(xhr, directFailed); };
+    xhr.onerror = directFailed;
+    try { xhr.send(u.file.slice(from, to)); } catch (e) { directFailed(); }
+  };
+  var askDrive = function () {
+    var xhr = new XMLHttpRequest();
+    var again = function () { retry(askDrive); };
+    try {
+      xhr.open('PUT', u.session);
+      xhr.setRequestHeader('Content-Range', 'bytes */' + u.size);
+    } catch (e) { return again(); }
+    xhr.onload = function () { driveReplied(xhr, again); };
+    xhr.onerror = again;
+    xhr.send();
+  };
+  var finishDirect = function (fileId) {
+    google.script.run
+      .withSuccessHandler(function (res) {
+        u.state = 'done';
+        u.progress = 100;
+        videoFinished(u, res);
+        done();
+      })
+      .withFailureHandler(function (err) { if (!signedOut(err)) retry(function () { finishDirect(fileId); }); })
+      .finishVideoUpload(CODE, u.entryId, fileId, u.kind || '');
+  };
+
+  var begin = function () {
+    if (u.session) return sendPiece(); // carrying on after a failed piece
+    google.script.run
+      .withSuccessHandler(function (res) { u.session = res.session; sendPiece(); })
+      .withFailureHandler(function (err) {
+        if (signedOut(err)) return;
+        if (/NOT_A_VIDEO|VIDEO_TOO_LONG|VIDEO_TOO_BIG|NOT_FOUND/.test(String(err && err.message))) { u.state = 'failed'; return done(); }
+        retry(begin);
+      })
+      .startVideoUpload(CODE, u.entryId, { kind: u.kind || '', name: u.name, mimeType: u.mimeType, size: u.size, seconds: u.seconds, origin: location.origin });
+  };
+  if (u.shrunk) return begin(); // carrying on after a failed try
+  u.state = 'shrinking';
+  u.progress = 0;
+  renderVideoList();
+  shrinkVideo(u, function (pct) { u.progress = pct; drawSoon(); }, function (file) {
+    u.shrunk = true;
+    if (file) { u.file = file; u.size = file.size; u.mimeType = file.type || u.mimeType; u.name = file.name || u.name; }
+    if (u.cancelled) return done();
+    u.state = 'uploading';
+    u.progress = 0;
+    renderVideoList();
+    begin();
+  });
+}
+
+function videoFinished(u, res) {
+  var e = findEntry(u.entryId);
+  var inForm = FORM && (u.form === FORM || FORM.id === u.entryId);
+  if (u.kind === 'file') {
+    if (e) { e.file_ids = res.file_ids; e.file_names = res.file_names; }
+    if (inForm) KEPT_FILES.push(res.file);
+  } else {
+    if (e) { e.video_ids = res.video_ids; e.video_names = res.video_names; }
+    if (inForm) KEPT_VIDEOS.push(res.video);
+  }
+  UPLOADS = UPLOADS.filter(function (x) { return x !== u; });
+  refreshVideoBlock();
+}
+
+function formUploads(kind) {
+  return UPLOADS.filter(function (u) {
+    return FORM && (u.form === FORM || (FORM.id && u.entryId === FORM.id)) &&
+      (kind === 'file') === (u.kind === 'file');
+  });
+}
+
+/** Draws the videos list and the files list on the form. */
+function renderVideoList() {
+  drawUploadList('video');
+  drawUploadList('file');
+}
+
+function drawUploadList(kind) {
+  var isFile = kind === 'file';
+  var host = document.getElementById(isFile ? 'fileList' : 'videoList');
+  if (!host) return;
+  host.innerHTML = '';
+  (isFile ? KEPT_FILES : KEPT_VIDEOS).forEach(function (v) {
+    host.appendChild(videoItem('is-done', v.name, S('videoDone'), 100, function () {
+      if (isFile) {
+        REMOVED_FILES.push(v.id);
+        KEPT_FILES = KEPT_FILES.filter(function (x) { return x.id !== v.id; });
+      } else {
+        REMOVED_VIDEOS.push(v.id);
+        KEPT_VIDEOS = KEPT_VIDEOS.filter(function (x) { return x.id !== v.id; });
+      }
+      renderVideoList();
+      scheduleAutosave();
+    }));
+  });
+  var busy = formUploads(kind).filter(function (u) { return u.state === 'shrinking' || u.state === 'uploading'; });
+  if (busy.length) host.appendChild(el('div', 'video-note', S(isFile ? 'fileKeepOpen' : 'videoKeepOpen')));
+  formUploads(kind).forEach(function (u) {
+    var status = u.state === 'shrinking' ? S('videoShrinking').replace('{pct}', u.progress)
+      : u.state === 'uploading' ? S('videoUploading').replace('{pct}', u.progress)
+      : u.state === 'failed' ? S('videoFailed')
+      : (u.entryId || (u.form && u.form.id)) ? S('videoQueued') : S('videoWaiting');
+    var item = videoItem('is-' + u.state, u.name, status, u.progress, function () {
+      u.cancelled = true;
+      UPLOADS = UPLOADS.filter(function (x) { return x !== u; });
+      renderVideoList();
+    });
+    if (u.state === 'failed') {
+      var again = el('button', 'btn btn-ghost btn-sm', S('videoRetry'));
+      again.type = 'button';
+      again.addEventListener('click', function () { u.state = 'waiting'; u.tries = 0; pumpVideos(); });
+      item.appendChild(again);
+    }
+    host.appendChild(item);
+  });
+}
+
+function videoItem(cls, name, status, pct, onRemove) {
+  var item = el('div', 'video-item ' + cls);
+  var top = el('div', 'video-top');
+  top.appendChild(el('span', 'video-name', name));
+  top.appendChild(el('span', 'video-status', status));
+  item.appendChild(top);
+  var rm = el('button', 'link-btn', S('uploadRemove'));
+  rm.type = 'button';
+  rm.addEventListener('click', onRemove);
+  item.appendChild(rm);
+  var bar = el('div', 'video-bar');
+  var fill = el('div', 'video-fill');
+  fill.style.width = pct + '%';
+  bar.appendChild(fill);
+  item.appendChild(bar);
+  return item;
+}
+
+/** The Videos block on a case study page: links that open each video in Drive. */
+function fillVideoBlock(vb, e) {
+  vb.innerHTML = '';
+  vb.appendChild(el('h3', '', S('videos')));
+  var list = videosOf(e);
+  var busy = UPLOADS.filter(function (u) { return u.kind !== 'file' && u.entryId === e.id; });
+  if (!list.length && !busy.length) { vb.appendChild(el('div', '', S('noVideos'))); return; }
+  list.forEach(function (v) {
+    var a = document.createElement('a');
+    a.className = 'video-link';
+    a.href = 'https://drive.google.com/file/d/' + encodeURIComponent(v.id) + '/view';
+    a.target = '_blank';
+    a.rel = 'noopener';
+    a.textContent = '▶ ' + v.name;
+    vb.appendChild(a);
+  });
+  busy.forEach(function (u) {
+    vb.appendChild(el('div', 'video-status', u.name + ': ' + S('videoStillUploading').replace('{pct}', u.progress)));
+  });
+  if (list.length) vb.appendChild(el('div', 'video-note', S('videoOpenNote')));
+}
+
+/** The Drawings and files block on a case study page: links that open each file in Drive. */
+function fillFileBlock(fb, e) {
+  fb.innerHTML = '';
+  fb.appendChild(el('h3', '', S('files')));
+  var list = filesOf(e);
+  var busy = UPLOADS.filter(function (u) { return u.kind === 'file' && u.entryId === e.id; });
+  if (!list.length && !busy.length) { fb.appendChild(el('div', '', S('noFiles'))); return; }
+  list.forEach(function (v) {
+    var a = document.createElement('a');
+    a.className = 'video-link';
+    a.href = 'https://drive.google.com/file/d/' + encodeURIComponent(v.id) + '/view';
+    a.target = '_blank';
+    a.rel = 'noopener';
+    a.textContent = '\uD83D\uDCC4 ' + v.name;
+    fb.appendChild(a);
+  });
+  busy.forEach(function (u) {
+    fb.appendChild(el('div', 'video-status', u.name + ': ' + S('videoStillUploading').replace('{pct}', u.progress)));
+  });
+  if (list.length) fb.appendChild(el('div', 'video-note', S('fileNote')));
+}
+
+function refreshVideoBlock() {
+  var vb = document.getElementById('videoBlock');
+  var fb = document.getElementById('fileBlock');
+  if (CURRENT && !document.getElementById('viewDetail').hidden) {
+    inContentLang(function () {
+      if (vb) fillVideoBlock(vb, CURRENT);
+      if (fb) fillFileBlock(fb, CURRENT);
+    });
+  }
+}
+
+// Phone photos take a second or two to shrink. Save waits for them, or it
+// would save the case study without the photos just chosen.
+var PREPARING = 0;
+var AFTER_PHOTOS = [];
+
+function whenPhotosReady(fn) {
+  if (!PREPARING) fn(); else AFTER_PHOTOS.push(fn);
+}
+
+function photosReady() {
+  var waiting = AFTER_PHOTOS;
+  AFTER_PHOTOS = [];
+  waiting.forEach(function (fn) { fn(); });
+}
+
+/** Redraws a photo at a smaller size so uploads stay fast and small. */
+function shrink(file, maxSide, quality, done) {
+  var reader = new FileReader();
+  reader.onload = function () {
+    var img = new Image();
+    img.onload = function () {
+      var w = img.width, h = img.height;
+      var scale = Math.min(1, maxSide / Math.max(w, h));
+      var canvas = document.createElement('canvas');
+      canvas.width = Math.round(w * scale);
+      canvas.height = Math.round(h * scale);
+      canvas.getContext('2d').drawImage(img, 0, 0, canvas.width, canvas.height);
+      done(canvas.toDataURL('image/jpeg', quality));
+    };
+    img.onerror = function () { done(null); };
+    img.src = reader.result;
+  };
+  reader.onerror = function () { done(null); };
+  reader.readAsDataURL(file);
+}
+
+/** A small version of the first photo, stored in the sheet for the card grid. */
+function makeThumb(dataUrl, done) {
+  var img = new Image();
+  img.onload = function () {
+    var scale = Math.min(1, 360 / Math.max(img.width, img.height));
+    var canvas = document.createElement('canvas');
+    canvas.width = Math.round(img.width * scale);
+    canvas.height = Math.round(img.height * scale);
+    canvas.getContext('2d').drawImage(img, 0, 0, canvas.width, canvas.height);
+    var q = 0.6, out = canvas.toDataURL('image/jpeg', q);
+    while (out.length > 40000 && q > 0.25) {
+      q -= 0.1;
+      out = canvas.toDataURL('image/jpeg', q);
+    }
+    done(out.length > 40000 ? '' : out);
+  };
+  img.onerror = function () { done(''); };
+  img.src = dataUrl;
+}
+
+function renderThumbs() {
+  var host = document.getElementById('thumbs');
+  if (!host) return;
+  host.innerHTML = '';
+
+  KEPT_PHOTOS.forEach(function (p) {
+    host.appendChild(thumbNode(p.url, function () {
+      REMOVED_PHOTOS.push(p.id);
+      KEPT_PHOTOS = KEPT_PHOTOS.filter(function (x) { return x.id !== p.id; });
+      renderThumbs();
+      onFormChange();
+    }));
+  });
+
+  NEW_PHOTOS.forEach(function (p, i) {
+    host.appendChild(thumbNode(p.preview, function () {
+      NEW_PHOTOS.splice(i, 1);
+      renderThumbs();
+      onFormChange();
+    }));
+  });
+}
+
+function thumbNode(src, onRemove) {
+  var t = el('div', 'thumb');
+  var img = document.createElement('img');
+  img.src = src;
+  t.appendChild(img);
+  var b = el('button', '', S('uploadRemove'));
+  b.type = 'button';
+  b.addEventListener('click', onRemove);
+  t.appendChild(b);
+  return t;
+}
+
+// ------------------------------------------------------- values, validity
+
+function collectValues() {
+  var values = {};
+  var form = document.getElementById('form');
+
+  ['input', 'textarea', 'select'].forEach(function (tag) {
+    var nodes = form.getElementsByTagName(tag);
+    for (var i = 0; i < nodes.length; i++) {
+      var n = nodes[i];
+      if (!n.name || n.type === 'checkbox' || n.type === 'file') continue;
+      values[n.name] = n.value;
+    }
+  });
+
+  var boxes = form.querySelectorAll('.checks');
+  for (var j = 0; j < boxes.length; j++) {
+    var name = boxes[j].getAttribute('data-name');
+    var picked = [];
+    var cbs = boxes[j].getElementsByTagName('input');
+    for (var k = 0; k < cbs.length; k++) if (cbs[k].checked) picked.push(cbs[k].value);
+    values[name] = picked.join(', ');
+  }
+
+  // A "type it here" answer only counts while Other is actually picked.
+  if (BOOT) BOOT.fields.forEach(function (f) {
+    var k = f.key + '_other';
+    if (!(k in values)) return;
+    var chosen = String(values[f.key] || '').split(',').map(function (v) { return v.trim(); });
+    if (chosen.indexOf('other') === -1) values[k] = '';
+  });
+  return values;
+}
+
+/** Same rules as computeReadiness_ on the server, so the meter never lies. */
+function missingFields(values) {
+  var missing = [];
+  function filled(key) { return String(values[key] || '').trim().length > 0; }
+
+  BOOT.fields.forEach(function (f) {
+    if (!f.required) return;
+    if (f.type === 'files') {
+      if (!KEPT_PHOTOS.length && !NEW_PHOTOS.length) missing.push(f.key);
+      return;
+    }
+    if (f.bilingual) {
+      if (!filled(f.key + '_en') && !filled(f.key + '_ar')) missing.push(f.key);
+      return;
+    }
+    if (!filled(f.key)) missing.push(f.key);
+  });
+  return missing;
+}
+
+function updateReadiness() {
+  var missing = missingFields(mergePending());
+  var box = document.getElementById('readiness');
+  box.innerHTML = '';
+  box.classList.toggle('is-ready', missing.length === 0);
+
+  var head = el('strong', '', S('readyTitle') + ': ');
+  box.appendChild(head);
+
+  if (!missing.length) {
+    box.appendChild(document.createTextNode(S('readyYes')));
+    return;
+  }
+  box.appendChild(document.createTextNode(S('readyNo')));
+  var ul = document.createElement('ul');
+  missing.forEach(function (k) { ul.appendChild(el('li', '', FT(k, 'label'))); });
+  box.appendChild(ul);
+}
+
+var draftTimer = null;
+
+function isMetricSide(key) { return key === 'metric_before' || key === 'metric_after'; }
+
+/** The before/after help, with an example that matches the number picked above. */
+function metricExample(key) {
+  var sel = document.querySelector('select[name="metric_type"]');
+  var type = (sel && sel.value) || 'lead_time';
+  var packs = (BOOT && BOOT.strings) || PRELOAD_STRINGS;
+  var p = packs[LANG] || packs.en;
+  var side = key === 'metric_before' ? 'exBefore_' : 'exAfter_';
+  return p[side + type] || p[side + 'lead_time'];
+}
+
+function metricHelp(key) {
+  return FT(key, 'help').replace('{example}', metricExample(key));
+}
+
+function refreshMetricHelp() {
+  ['metric_before', 'metric_after'].forEach(function (k) {
+    var h = document.querySelector('[data-metric-help="' + k + '"]');
+    if (h) h.textContent = metricHelp(k);
+    var box = document.querySelector('#form [name="' + k + '_' + LANG + '"]');
+    if (box) box.placeholder = metricExample(k);
+  });
+}
+
+function onFormChange() {
+  refreshMetricHelp();
+  updateReadiness();
+  scheduleAutosave();
+  saveDraft();
+}
+
+/**
+ * Every change is also copied into this browser straight away, so a refresh or
+ * a dropped connection never loses what was typed. It's cleared once Google has it.
+ */
+function saveDraft() {
+  if (!FORM) return;
+  try { localStorage.setItem(DRAFT_KEY, JSON.stringify({ id: FORM.id, key: FORM.key, values: PENDING })); } catch (e) {}
+}
+
+function draftRecord() {
+  try {
+    var d = JSON.parse(localStorage.getItem(DRAFT_KEY) || 'null');
+    if (d && !d.values) d = { id: '', values: d }; // copies kept by the older version
+    return d;
+  } catch (e) { return null; }
+}
+
+/** The browser's copy for this case study ('' = a new one), or null. */
+function readDraft(id) {
+  var d = draftRecord();
+  return d && (d.id || '') === (id || '') ? d.values : null;
+}
+
+function clearDraft() {
+  try { localStorage.removeItem(DRAFT_KEY); } catch (e) {}
+}
+
+// ------------------------------------------------------- saving as you type
+// Like Google Docs: a few seconds after someone stops typing, the case study is
+// saved. Nothing has to be filled in first: anything typed or added is enough.
+// Leaving the form, or pressing Save, saves straight away.
+
+var AUTOSAVE_MS = 2500;
+var FORM = null; // the form that's open: {id, state, timer, busy, queued, dirty}
+
+function newFormSession(id, key) {
+  // key: this form's own name until the case study has an id, so sending it
+  // twice (a refresh before the page heard back) never makes two.
+  key = key || ('f' + new Date().getTime().toString(36) + Math.random().toString(36).slice(2, 10));
+  return { id: id || '', key: key, state: '', timer: null, busy: false, queued: null, dirty: false };
+}
+
+function copyObj(o) { return JSON.parse(JSON.stringify(o)); }
+
+function basicsMissing(values) {
+  // Nothing is required. Only a completely empty form isn't saved, so opening
+  // "Add" and leaving doesn't create a blank case study.
+  return formIsEmpty(values) ? ['client_name'] : [];
+}
+
+function formIsEmpty(values) {
+  var typed = Object.keys(values || {}).some(function (k) { return String(values[k] || '').trim() !== ''; });
+  var added = NEW_PHOTOS.length || KEPT_PHOTOS.length || KEPT_VIDEOS.length || KEPT_FILES.length ||
+    UPLOADS.some(function (u) { return FORM && u.form === FORM && !u.cancelled; });
+  return !typed && !added;
+}
+
+function setSaveState(state) {
+  if (FORM) FORM.state = state;
+  var n = document.getElementById('saveState');
+  if (!n) return;
+  var key = { saving: 'saveStateSaving', saved: 'saveStateSaved', needBasics: 'saveStateEmpty', failed: 'saveStateFailed' }[state];
+  n.className = 'save-state' + (state ? ' is-' + state : '');
+  n.textContent = key ? S(key) : '';
+}
+
+function scheduleAutosave() {
+  if (!FORM) return;
+  FORM.dirty = true;
+  clearTimeout(FORM.timer);
+  FORM.timer = setTimeout(function () { saveNow(true); }, AUTOSAVE_MS);
+}
+
+/** Saving the form a moment before leaving it, so nothing typed is lost. */
+function leaveForm() {
+  var f = FORM;
+  if (f && !document.getElementById('viewForm').hidden && (f.dirty || f.timer)) saveNow(false);
+  FORM = null;
+}
+
+window.addEventListener('beforeunload', function (ev) {
+  // A video can't carry on uploading once the page is gone.
+  if (videosUploading()) { ev.preventDefault(); ev.returnValue = ''; }
+  if (!FORM) return;
+  // Text is safe either way: the browser keeps a copy, and it comes back after
+  // a refresh. Only ask "are you sure" when photos haven't reached Google yet.
+  var photosNotUp = PREPARING || NEW_PHOTOS.some(function (p) { return !p.sent; }) ||
+    (FORM.busy && NEW_PHOTOS.length);
+  saveDraft();
+  if (FORM.dirty || FORM.timer) saveNow(true);
+  if (photosNotUp) {
+    ev.preventDefault();
+    ev.returnValue = '';
+  }
+});
+
+/**
+ * Sends what's on the form now. autosave=true while typing; false when leaving
+ * the form or pressing Save (the server then also tells marketing, once).
+ * after(saved) runs when it's done. Returns false if the basics are missing.
+ */
+function saveNow(autosave, after) {
+  var f = FORM;
+  if (!f) return false;
+  clearTimeout(f.timer);
+  f.timer = null;
+  var values = copyObj(mergePending());
+  if (basicsMissing(values).length) { setSaveState('needBasics'); return false; }
+  f.dirty = false;
+
+  var photos = NEW_PHOTOS.filter(function (p) { return !p.sent; });
+  photos.forEach(function (p) { p.sent = true; });
+  var removed = REMOVED_PHOTOS.slice();
+  var job = {
+    values: values, autosave: !!autosave, after: after || null, photos: photos, removed: removed,
+    removedVideos: REMOVED_VIDEOS.slice(),
+    removedFiles: REMOVED_FILES.slice(),
+    thumbSource: (photos.length || removed.length)
+      ? (NEW_PHOTOS.length ? NEW_PHOTOS[0].preview : (KEPT_PHOTOS.length ? KEPT_PHOTOS[0].url : ''))
+      : null
+  };
+  // One save at a time, so a new case study is never created twice.
+  if (f.busy) { f.queued = f.queued ? mergeJobs(f.queued, job) : job; return true; }
+  runSave(f, job);
+  return true;
+}
+
+function mergeJobs(older, newer) {
+  return {
+    values: newer.values,
+    autosave: older.autosave && newer.autosave,
+    after: newer.after || older.after,
+    photos: older.photos.concat(newer.photos),
+    removed: older.removed.concat(newer.removed.filter(function (x) { return older.removed.indexOf(x) === -1; })),
+    removedVideos: older.removedVideos.concat(newer.removedVideos.filter(function (x) { return older.removedVideos.indexOf(x) === -1; })),
+    removedFiles: older.removedFiles.concat(newer.removedFiles.filter(function (x) { return older.removedFiles.indexOf(x) === -1; })),
+    thumbSource: newer.thumbSource !== null ? newer.thumbSource : older.thumbSource
+  };
+}
+
+function runSave(f, job) {
+  f.busy = true;
+  if (f === FORM) setSaveState('saving');
+  var send = function (thumb) {
+    google.script.run
+      .withSuccessHandler(function (saved) { onSavedNow(f, job, saved); })
+      .withFailureHandler(function (err) { onSaveNowFailed(f, job, err); })
+      .saveEntry(CODE, {
+        id: f.id,
+        draftKey: f.key,
+        values: job.values,
+        newPhotos: job.photos.map(function (p) {
+          return { name: p.name, mimeType: p.mimeType, dataBase64: p.dataBase64 };
+        }),
+        removePhotoIds: job.removed,
+        removeVideoIds: job.removedVideos,
+        removeFileIds: job.removedFiles,
+        thumb: thumb,
+        autosave: job.autosave
+      });
+  };
+  if (job.thumbSource) makeThumb(job.thumbSource, send); else send('');
+}
+
+function onSavedNow(f, job, saved) {
+  f.busy = false;
+  var wasNew = !f.id;
+  f.id = saved.id;
+  // Google has it now, so the browser's copy can go (unless more was typed since).
+  var d = draftRecord();
+  if (d && (d.id === saved.id || (wasNew && !d.id)) && (f !== FORM || !f.dirty)) clearDraft();
+  if (f === FORM && wasNew) rememberScreen({ view: 'form', id: saved.id });
+  var i = -1;
+  for (var j = 0; j < ENTRIES.length; j++) if (ENTRIES[j].id === saved.id) i = j;
+  if (i > -1) ENTRIES[i] = saved; else ENTRIES.push(saved);
+  delete PHOTO_CACHE[saved.id];
+
+  if (f === FORM) {
+    // Photos that just went up are now part of the case study.
+    var ids = String(saved.photo_ids || '').split(',').filter(String);
+    var newIds = ids.slice(ids.length - job.photos.length);
+    job.photos.forEach(function (p, n) {
+      var at = NEW_PHOTOS.indexOf(p);
+      if (at > -1) {
+        NEW_PHOTOS.splice(at, 1);
+        KEPT_PHOTOS.push({ id: newIds[n], name: p.name, url: p.preview });
+      } else {
+        REMOVED_PHOTOS.push(newIds[n]); // removed while it was uploading
+      }
+    });
+    REMOVED_PHOTOS = REMOVED_PHOTOS.filter(function (x) { return job.removed.indexOf(x) === -1; });
+    REMOVED_VIDEOS = REMOVED_VIDEOS.filter(function (x) { return job.removedVideos.indexOf(x) === -1; });
+    REMOVED_FILES = REMOVED_FILES.filter(function (x) { return job.removedFiles.indexOf(x) === -1; });
+    if (job.photos.length) renderThumbs();
+    if (REMOVED_PHOTOS.length) scheduleAutosave();
+  }
+  buildFilters();
+  renderLibrary();
+  pumpVideos(); // videos and files added before the case study existed can go up now
+
+  if (f.queued) { var q = f.queued; f.queued = null; runSave(f, q); return; }
+  if (f === FORM) setSaveState(f.dirty ? 'saving' : 'saved');
+  if (job.after && f === FORM) job.after(saved);
+}
+
+function onSaveNowFailed(f, job, err) {
+  if (String(err && err.message || '').indexOf('NOT_ALLOWED') > -1) { f.busy = false; signOut(); return; }
+  // Keep it and try again in a bit, with anything typed since. f.busy stays on
+  // meanwhile, so nothing else is sent at the same time.
+  f.queued = f.queued ? mergeJobs(job, f.queued) : job;
+  if (f === FORM) {
+    setSaveState('failed');
+    if (job.after) {
+      resetSaveButton();
+      document.getElementById('formMsg').textContent = S('errSaveFailed');
+    }
+  }
+  setTimeout(function () { var q = f.queued; f.queued = null; runSave(f, q); }, 10000);
+}
+
+function resetSaveButton() {
+  var btn = document.getElementById('saveBtn');
+  btn.disabled = false;
+  btn.textContent = S('save');
+}
+
+// ------------------------------------------------------------------- save
+
+function submitForm(ev) {
+  ev.preventDefault();
+  var values = mergePending();
+  var missing = basicsMissing(values);
+
+  var fields = document.querySelectorAll('.field');
+  for (var i = 0; i < fields.length; i++) fields[i].classList.remove('has-error');
+
+  if (missing.length) {
+    missing.forEach(function (k) {
+      var node = document.querySelector('.field[data-key="' + k + '"]');
+      if (node) node.classList.add('has-error');
+    });
+    var first = document.querySelector('.field.has-error');
+    if (first) first.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    document.getElementById('formMsg').textContent = S('saveStateEmpty');
+    return;
+  }
+
+  var btn = document.getElementById('saveBtn');
+  btn.disabled = true;
+  btn.textContent = S('saving');
+  whenPhotosReady(function () { saveNow(false, onSaved); });
+}
+
+/** After Save: open the case study that was just saved. */
+function onSaved(saved) {
+  resetSaveButton();
+  clearDraft();
+  FORM = null;
+  PENDING = {};
+  NEW_PHOTOS = [];
+  REMOVED_PHOTOS = [];
+  EDITING = null;
+  navTo({ view: 'detail', id: saved.id });
+  toast(saved.id + ' ✓');
+}
+
+function doDelete(entry) {
+  if (!window.confirm(S('deleteConfirm'))) return;
+  google.script.run
+    .withSuccessHandler(function () {
+      ENTRIES = ENTRIES.filter(function (e) { return e.id !== entry.id; });
+      buildFilters();
+      renderLibrary();
+      toast(S('deleted'));
+      navTo({ view: 'library' });
+    })
+    .withFailureHandler(function (err) {
+      if (String(err && err.message || '').indexOf('NOT_ALLOWED') > -1) { signOut(); return; }
+      toast(S('errSaveFailed'));
+    })
+    .deleteEntry(CODE, entry.id);
+}
+
+// ------------------------------------------------------------------ wiring
+
+function wireShell() {
+  document.getElementById('langToggle').addEventListener('click', toggleLanguage);
+  document.getElementById('signInForm').addEventListener('submit', signIn);
+  document.getElementById('signOutBtn').addEventListener('click', askSignOut);
+}
+
+function wireUp() {
+  var toLibrary = function () { navTo({ view: 'library' }); };
+  document.getElementById('tabLibrary').addEventListener('click', toLibrary);
+  document.getElementById('tabAdd').addEventListener('click', function () { navTo({ view: 'form', id: null }); });
+  document.getElementById('detailBack').addEventListener('click', toLibrary);
+  document.getElementById('formBack').addEventListener('click', toLibrary);
+  document.getElementById('cancelBtn').addEventListener('click', toLibrary);
+  document.getElementById('navBack').addEventListener('click', navBack);
+  document.getElementById('navForward').addEventListener('click', navForward);
+  document.getElementById('form').addEventListener('submit', submitForm);
+
+  document.getElementById('search').addEventListener('input', renderLibrary);
+  ['fCapability', 'fIndustry', 'fStatus', 'fYear'].forEach(function (id) {
+    document.getElementById(id).addEventListener('change', renderLibrary);
+  });
+  document.getElementById('clearFilters').addEventListener('click', function () {
+    document.getElementById('search').value = '';
+    ['fCapability', 'fIndustry', 'fStatus', 'fYear'].forEach(function (id) {
+      document.getElementById(id).value = '';
+    });
+    renderLibrary();
+  });
+
+  document.getElementById('optionalToggle').addEventListener('click', function () {
+    var box = document.getElementById('groupOptional');
+    box.hidden = !box.hidden;
+    this.textContent = box.hidden ? S('optionalToggleShow') : S('optionalToggleHide');
+  });
+}
+</script>
+
+</body>
+</html>
