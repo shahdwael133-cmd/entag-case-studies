@@ -2616,6 +2616,8 @@ function missingFields(values) {
       if (!KEPT_PHOTOS.length && !NEW_PHOTOS.length) missing.push(f.key);
       return;
     }
+    if (f.type === 'videos') { if (!KEPT_VIDEOS.length) missing.push(f.key); return; }
+    if (f.type === 'documents') { if (!KEPT_FILES.length) missing.push(f.key); return; }
     if (f.bilingual) {
       if (!filled(f.key + '_en') && !filled(f.key + '_ar')) missing.push(f.key);
       return;
