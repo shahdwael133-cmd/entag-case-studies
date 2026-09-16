@@ -205,6 +205,15 @@ main { max-width: 1180px; margin: 0 auto; padding: 26px 22px 80px; }
 }
 .detail-title { font-size: 27px; margin-bottom: 4px; }
 .detail-sub { font-size: 15px; margin-bottom: 4px; }
+.add-big { display: block; width: 100%; margin: 0 0 20px; padding: 22px 16px; border: 0; border-radius: 14px;
+  background: var(--green); color: var(--white); font: inherit; font-size: 22px; font-weight: 700; cursor: pointer; }
+.add-big:hover { background: #02592b; }
+.needs-info { margin: 12px 0 14px; padding: 12px 16px; border-radius: 10px; background: #fff7e6; color: #8a4b00; font-size: 14px; }
+.needs-info ul { margin: 6px 0 10px; padding-inline-start: 20px; }
+.metric-row { margin: 10px 0 14px; }
+.metric-name { font-weight: 600; font-size: 14px; margin-bottom: 6px; }
+.metric-cell { display: block; flex: 1; min-width: 0; }
+.metric-side { display: block; font-size: 12px; color: var(--body); margin-bottom: 4px; }
 .detail-by { font-size: 13px; color: var(--body); margin-bottom: 14px; }
 .card-by { font-size: 12px; color: var(--body); margin-top: 4px; }
 .detail-actions { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 16px; }
@@ -483,6 +492,7 @@ main { max-width: 1180px; margin: 0 auto; padding: 26px 22px 80px; }
     <!-- Library                                                           -->
     <!-- ---------------------------------------------------------------- -->
     <section id="viewLibrary" class="view">
+      <button class="add-big" id="addBig" data-s="addNewBig"></button>
       <div class="toolbar">
         <input type="search" id="search" class="search" autocomplete="off">
         <div class="filters">
@@ -523,7 +533,6 @@ main { max-width: 1180px; margin: 0 auto; padding: 26px 22px 80px; }
       <p class="page-intro" id="formIntro"></p>
       <p class="note note-lang" id="formLangNote"></p>
 
-      <div class="readiness" id="readiness"></div>
 
       <form id="form" autocomplete="off">
         <div class="section">
@@ -569,7 +578,7 @@ main { max-width: 1180px; margin: 0 auto; padding: 26px 22px 80px; }
 
   <div class="toast" id="toast" hidden></div>
 
-  <script>var PRELOAD_STRINGS = {"en":{"dir":"ltr","lang":"en","appTitle":"Entag Case Study Library","headerTitle":"Case Study Library","appSubtitle":"Every delivered job we can turn into proof.","navLibrary":"Library","navAdd":"Add case study","langToggle":"العربية","navBack":"Back","navForward":"Forward","signedInAs":"Signed in as","signInTitle":"Sign in","signInIntro":"Type the personal code marketing gave you. You only need to do this once on each phone or laptop.","signInPlaceholder":"Your code, like K7PQ2XRM","signInButton":"Sign in","signInWrong":"That code didn't work. Check it and try again, or ask marketing for yours.","signInTooMany":"Too many wrong codes were tried. Please wait 10 minutes and try again.","signOut":"Sign out","signOutConfirm":"Sign out on this device? You will need your code or your personal link to get back in.","searchPlaceholder":"Search client, part, material…","filterCapability":"Capability","filterIndustry":"Industry","filterStatus":"Status","filterYear":"Year","filterAll":"All","clearFilters":"Clear filters","countOne":"case study","countMany":"case studies","emptyTitle":"Nothing here yet","emptyBody":"Add the first case study and it will show up here.","emptyFiltered":"No case study matches those filters.","loading":"Loading…","back":"Back to library","edit":"Edit","delete":"Delete","deleteConfirm":"Delete this case study for everyone? Its photos go to the Drive bin for 30 days, so marketing can still bring it back if it was a mistake.","deleted":"Deleted","writePost":"Write a post","copied":"Copied.","postTitle":"Post drafts","postIntro":"Three ready drafts built from this case study, best bet first. Copy one, read it through, then post.","postLinkedIn":"LinkedIn","postInstagram":"Instagram","postBest":"Best bet","postSpecificity":"Leads with the number","postLoss":"Leads with the problem","postProof":"Leads with the client","postWhySpecificity":"Engineers and buyers stop scrolling for a concrete number.","postWhyLoss":"Makes the reader feel the cost of the problem first.","postWhyProof":"Lets the client do the convincing.","postCopy":"Copy post","postCopyComment":"Copy first comment","postCopyLink":"Copy link","postFirstComment":"Post this as the first comment. Links inside the post itself get shown to fewer people.","postBioLink":"Put this link in your Instagram bio:","postNoNumber":"There is no before and after number yet, so the strongest kind of post is missing. Add the numbers with Edit.","postMachineText":"Parts of this were machine-translated. Read it through and fix the wording before posting.","postBlocked":"This client is internal only, so there are no posts. Ask the client first, then change \"Can we name them publicly?\" with Edit.","tplHookNumber":"{metric}: from {before} to {after}.","tplNeeded":"{who} needed {part}.","tplWhere":"That's where {whoMid} was when they came to Entag.","tplResult":"The result: {metricMid} went from {before} to {after}.","tplCameWith":"{who} came to us for {part}.","tplHow":"How {whoMid} got {part} made.","tplMoq":"No minimum order quantity, even for a small run like this one.","tplRepeat":"They've ordered again since.","tplCtaLinkedIn":"Have a part like this? Upload your drawing and get a quote within 24 hours. Link in the first comment.","tplCtaInstagram":"Have a part like this? Upload your drawing and get a quote within 24 hours. Link in bio.","tplComment":"Get a quote for your part: {link}","photos":"Photos","loadingPhotos":"Loading photos…","noPhotos":"No photos on this one yet.","videos":"Videos","noVideos":"No videos on this one.","videoPrompt":"Drop videos here, or click to choose","videoHint":"Up to 1 minute each. Add as many as you like.","videoWaiting":"Waiting: fill in the client name and what we made first","videoQueued":"Waiting its turn","videoUploading":"Uploading {pct}%","videoShrinking":"Making it smaller first: {pct}%","videoKeepOpen":"Videos are made smaller, then uploaded. Keep this page open until they're done.","videoDone":"Saved","videoFailed":"Didn't upload. Check your internet.","videoRetry":"Try again","videoStillUploading":"still uploading ({pct}%)","videoOpenNote":"Videos open in Google Drive, for whoever is signed in to the company Google account.","anonFlag":"Name hidden in posts","photoNote":"Click a photo to open it in Google Drive, where you can download it. You can also right-click a photo to copy or save it.","openFolder":"Open this case study's folder in Google Drive","folderNote":"The full write-up (a Google Doc), the photos and the videos are all in there.","driveNote":"Drive opens for whoever is signed in to the company Google account.","videoTooLong":"{names}: longer than 1 minute. Please trim it and add it again.","videoNotVideo":"{names}: not a video.","videoCantCheck":"Couldn't check how long {names} is, and it's too big to take a chance. Please add a shorter clip.","addedBy":"Added by","lastEdited":"Last edited","viewIn":"Read in","autoTranslated":"Auto-translated, not reviewed","humanWritten":"Written by the team","internalOnly":"Internal only, do not publish","anonymisedClient":"A {industry} manufacturer","fillingInAs":"Filling in as: {name}","filesPrompt":"Drop drawings or files here, or click to choose","filesHint":"Any 2D or 3D file (PDF, DWG, DXF, STEP, STL...), up to 1 GB each.","files":"Drawings and files","noFiles":"No drawings or files on this one.","fileNote":"Files open in Google Drive, for whoever is signed in to the company Google account. You can download them from there.","fileKeepOpen":"Files are uploading. Keep this page open until they're done.","fileTooBig":"{names}: empty or bigger than 1 GB, so it can't be added.","formTitleNew":"Add a case study","formTitleEdit":"Edit case study","formIntro":"The core questions take about 5 minutes. Anything under “More detail” is optional. Fill what you know and leave the rest.","formLangNote":"Write in English or Arabic, whichever is easier. The other language fills in automatically.","sectionCore":"The essentials","sectionProof":"The proof","sectionPhotos":"Photos","sectionOptional":"More detail (optional)","sectionExtra":"Anything else","sectionMarketing":"Marketing use","docNote":"This Doc fills itself in from the library every time someone saves, so anything typed here gets replaced. To change something, edit the case study in the","docStatus":"Status","docAddedBy":"Added by","docUpdated":"Last changed by","docEmpty":"Not filled in yet","docAuto":"auto-translated, not reviewed","docInternal":"internal only, never published","docInFolder":"In this folder:","docArrow":"→","optionalToggleShow":"Show more detail","optionalToggleHide":"Hide more detail","save":"Save case study","saving":"Saving…","cancel":"Cancel","required":"Required","optional":"Optional","selectPlaceholder":"Choose one…","otherPlaceholder":"Type it here","multiHint":"Pick as many as apply","draftRestored":"Restored what you had typed before.","draftCleared":"Draft cleared.","uploadPrompt":"Drop photos here, or click to choose","uploadHint":"Big photos are shrunk automatically, so phone pictures are fine.","uploadRemove":"Remove","uploadProcessing":"Preparing photos…","uploadUnreadable":"Couldn't open {names}. Please use a JPG or PNG photo.","saveStateSaving":"Saving…","saveStateSaved":"All changes saved","saveStateNeedBasics":"Only the client name and what we made are required. After those, everything saves by itself.","saveStateFailed":"Not saved yet. Check your internet. Trying again…","postSample":"This is the example case study, not a real job. Use it to see how posts come out, but don't publish it.","monthNames":"January,February,March,April,May,June,July,August,September,October,November,December","exBefore_lead_time":"3 weeks","exAfter_lead_time":"6 days","exBefore_quote_time":"5 days","exAfter_quote_time":"24 hours","exBefore_cost":"5,000 EGP a piece","exAfter_cost":"3,200 EGP a piece","exBefore_moq":"1,000 pieces","exAfter_moq":"no minimum","exBefore_rejects":"12% rejected","exAfter_rejects":"1% rejected","exBefore_downtime":"10 days stopped","exAfter_downtime":"2 days stopped","readyTitle":"Ready to publish","readyYes":"This one has everything it needs.","readyNo":"Still missing:","statusDraft":"Draft","statusNeedsInfo":"Needs info","statusApproved":"Approved","statusPublished":"Published","errRequired":"Please fill this in.","errPhotoRequired":"At least one photo of the finished part is needed.","errSaveFailed":"Could not save. Nothing was lost, so try again in a moment.","errLoadFailed":"Could not load the library. Refresh the page.","errNotAllowed":"This page is for Entag team accounts only.","emailSubject":"New case study: ","emailIntro":"A new case study was added to the library.","emailOpen":"Open the library","capProblem":"THE PROBLEM","capSolution":"WHAT ENTAG DID","capProof":"THE PROOF","capQuote":"CLIENT QUOTE","capDetails":"DETAILS"},"ar":{"dir":"rtl","lang":"ar","appTitle":"مكتبة دراسات الحالة - Entag","headerTitle":"مكتبة دراسات الحالة","appSubtitle":"كل شغلانة سلمناها ينفع تتحول لدليل نعرضه.","navLibrary":"المكتبة","navAdd":"ضيف دراسة حالة","langToggle":"English","navBack":"رجوع","navForward":"قدّام","signedInAs":"داخل باسم","signInTitle":"تسجيل الدخول","signInIntro":"اكتب الكود الشخصي اللي الماركتينج إدّاهولك. هتعمل كده مرة واحدة بس على كل موبايل أو لابتوب.","signInPlaceholder":"الكود بتاعك، زي K7PQ2XRM","signInButton":"ادخل","signInWrong":"الكود ده مش شغال. اتأكد منه وجرب تاني، أو اطلب الكود بتاعك من الماركتينج.","signInTooMany":"اتجربت أكواد غلط كتير. استنى 10 دقايق وجرب تاني.","signOut":"خروج","signOutConfirm":"تسجّل خروج من الجهاز ده؟ هتحتاج الكود بتاعك أو اللينك الخاص بيك عشان تدخل تاني.","searchPlaceholder":"دور على عميل أو قطعة أو خامة…","filterCapability":"الخدمة","filterIndustry":"المجال","filterStatus":"الحالة","filterYear":"السنة","filterAll":"الكل","clearFilters":"شيل الفلاتر","countOne":"دراسة حالة","countMany":"دراسة حالة","emptyTitle":"لسه مفيش حاجة هنا","emptyBody":"ضيف أول دراسة حالة وهتلاقيها ظهرت هنا.","emptyFiltered":"مفيش دراسة حالة مطابقة للفلاتر دي.","loading":"بيحمل…","back":"رجوع للمكتبة","edit":"تعديل","delete":"امسح","deleteConfirm":"تمسح دراسة الحالة دي عند الكل؟ الصور هتروح سلة درايف لمدة 30 يوم، فالماركتينج تقدر ترجعها لو كان غلط.","deleted":"اتمسحت","writePost":"اكتب بوست منها","copied":"اتنسخ.","postTitle":"مسودات بوستات","postIntro":"3 مسودات جاهزة معمولة من دراسة الحالة دي، الأقوى الأول. انسخ واحدة، اقراها كويس، وبعدين انشرها.","postLinkedIn":"لينكدإن","postInstagram":"إنستجرام","postBest":"الأقوى","postSpecificity":"بتبدأ بالرقم","postLoss":"بتبدأ بالمشكلة","postProof":"بتبدأ بالعميل","postWhySpecificity":"المهندسين والمشترين بيقفوا عند رقم واضح.","postWhyLoss":"بتخلي اللي بيقرا يحس بتمن المشكلة الأول.","postWhyProof":"بتخلي العميل هو اللي يقنع.","postCopy":"انسخ البوست","postCopyComment":"انسخ أول كومنت","postCopyLink":"انسخ اللينك","postFirstComment":"انشر ده كأول كومنت. اللينكات اللي جوه البوست نفسه بتوصل لناس أقل.","postBioLink":"حط اللينك ده في البايو بتاع إنستجرام:","postNoNumber":"لسه مفيش رقم قبل وبعد، فأقوى نوع بوست ناقص. ضيف الأرقام من تعديل.","postMachineText":"أجزاء من الكلام ده مترجمة آلياً. اقراها وظبط الكلام قبل ما تنشر.","postBlocked":"العميل ده للاستخدام الداخلي بس، فمفيش بوستات. اسأل العميل الأول، وبعدين غيّر \"ينفع نذكر اسمهم علناً؟\" من تعديل.","tplHookNumber":"{metric}: من {before} لـ {after}.","tplNeeded":"{who} كانوا محتاجين {part}.","tplWhere":"ده كان الوضع عند {whoMid} لما جولنا.","tplResult":"والنتيجة: {metricMid} بقت {after} بدل {before}.","tplCameWith":"{who} جولنا عشان {part}.","tplHow":"إزاي {whoMid} عملوا {part}.","tplMoq":"من غير حد أدنى للكمية، حتى لو الطلب صغير زي ده.","tplRepeat":"ورجعوا طلبوا مننا تاني بعدها.","tplCtaLinkedIn":"عندك قطعة زي دي؟ ارفع الرسمة وخد عرض سعر في خلال 24 ساعة. اللينك في أول كومنت.","tplCtaInstagram":"عندك قطعة زي دي؟ ارفع الرسمة وخد عرض سعر في خلال 24 ساعة. اللينك في البايو.","tplComment":"اطلب عرض سعر لقطعتك من هنا: {link}","photos":"الصور","loadingPhotos":"بيحمل الصور…","noPhotos":"لسه مفيش صور على دي.","videos":"الفيديوهات","noVideos":"مفيش فيديوهات على دي.","videoPrompt":"ارمي الفيديوهات هنا، أو دوس عشان تختار","videoHint":"لحد دقيقة لكل فيديو. ضيف قد ما تحب.","videoWaiting":"مستني: اكتب اسم العميل وعملنا إيه الأول","videoQueued":"مستني دوره","videoUploading":"بيترفع {pct}%","videoShrinking":"بنصغّره الأول: {pct}%","videoKeepOpen":"الفيديوهات بتتصغّر الأول وبعدين تترفع. خلي الصفحة مفتوحة لحد ما يخلصوا.","videoDone":"اتحفظ","videoFailed":"مترفعش. شيك على النت.","videoRetry":"جرّب تاني","videoStillUploading":"لسه بيترفع ({pct}%)","videoOpenNote":"الفيديوهات بتفتح على جوجل درايف، لأي حد داخل على حساب جوجل بتاع الشركة.","anonFlag":"الاسم مخفي في البوستات","photoNote":"دوس على أي صورة تفتحها على جوجل درايف وتنزلها من هناك. وممكن كمان تدوس كليك يمين على الصورة عشان تنسخها أو تحفظها.","openFolder":"افتح فولدر دراسة الحالة دي على جوجل درايف","folderNote":"القصة كاملة (ملف جوجل دوكس) والصور والفيديوهات كلهم هناك.","driveNote":"درايف بيفتح لأي حد داخل على حساب جوجل بتاع الشركة.","videoTooLong":"{names}: أطول من دقيقة. قصّه وضيفه تاني.","videoNotVideo":"{names}: ده مش فيديو.","videoCantCheck":"مقدرناش نعرف طول {names}، وهو كبير فمش هنخاطر. ضيف مقطع أقصر.","addedBy":"ضافها","lastEdited":"آخر تعديل","viewIn":"اقرأها بـ","autoTranslated":"ترجمة آلية - محدش راجعها","humanWritten":"مكتوبة من الفريق","internalOnly":"للاستخدام الداخلي بس - متنشرش","anonymisedClient":"شركة في مجال {industry}","fillingInAs":"بتملاها باسم: {name}","filesPrompt":"حط الرسومات أو الملفات هنا، أو دوس عشان تختار","filesHint":"أي ملف 2D أو 3D (PDF، DWG، DXF، STEP، STL...)، لحد 1 جيجا للملف.","files":"الرسومات والملفات","noFiles":"مفيش رسومات أو ملفات على دي.","fileNote":"الملفات بتفتح على Google Drive، لأي حد داخل بحساب Google بتاع الشركة. وتقدر تنزلها من هناك.","fileKeepOpen":"الملفات بتترفع. خلي الصفحة مفتوحة لحد ما يخلصوا.","fileTooBig":"{names}: فاضي أو أكبر من 1 جيجا، فمينفعش يتضاف.","formTitleNew":"ضيف دراسة حالة","formTitleEdit":"تعديل دراسة الحالة","formIntro":"الأسئلة الأساسية بتاخد 5 دقايق تقريباً. أي حاجة تحت \"تفاصيل زيادة\" اختيارية - املا اللي تعرفه وسيب الباقي.","formLangNote":"اكتب بالعربي أو بالإنجليزي، أنهي واحدة أسهل عليك. اللغة التانية هتتملي لوحدها.","sectionCore":"الأساسيات","sectionProof":"الدليل","sectionPhotos":"الصور","sectionOptional":"تفاصيل زيادة (اختياري)","sectionExtra":"أي حاجة تانية","sectionMarketing":"استخدام الماركتينج","docNote":"الملف ده بيتملى لوحده من المكتبة كل ما حد يحفظ، فأي حاجة تتكتب هنا هتتمسح. لو عايز تغير حاجة، عدّل دراسة الحالة في","docStatus":"الحالة","docAddedBy":"ضافها","docUpdated":"آخر تعديل من","docEmpty":"لسه متملتش","docAuto":"ترجمة آلية، محدش راجعها","docInternal":"داخلي بس، عمره ما هيتنشر","docInFolder":"موجودة في الفولدر ده:","docArrow":"←","optionalToggleShow":"ورّيني تفاصيل زيادة","optionalToggleHide":"اخفي التفاصيل الزيادة","save":"احفظ دراسة الحالة","saving":"بيحفظ…","cancel":"إلغاء","required":"مطلوبة","optional":"اختيارية","selectPlaceholder":"اختار واحدة…","otherPlaceholder":"اكتبها هنا","multiHint":"اختار كل اللي ينطبق","draftRestored":"رجعنالك اللي كنت كاتبه قبل كده.","draftCleared":"المسودة اتمسحت.","uploadPrompt":"ارمي الصور هنا، أو دوس عشان تختار","uploadHint":"الصور الكبيرة بتصغر لوحدها، يعني صور الموبايل تمام.","uploadRemove":"شيل","uploadProcessing":"بيجهز الصور…","uploadUnreadable":"مقدرناش نفتح {names}. استخدم صورة JPG أو PNG.","saveStateSaving":"بيحفظ…","saveStateSaved":"كل التغييرات اتحفظت","saveStateNeedBasics":"المطلوب بس اسم العميل وعملنا إيه. بعد كده كل حاجة بتتحفظ لوحدها.","saveStateFailed":"لسه متحفظش. شيك على النت، بنحاول تاني…","postSample":"دي دراسة الحالة المثال، مش شغلانة حقيقية. استخدمها عشان تشوف البوستات بتطلع إزاي، بس متنشرهاش.","monthNames":"يناير,فبراير,مارس,أبريل,مايو,يونيو,يوليو,أغسطس,سبتمبر,أكتوبر,نوفمبر,ديسمبر","exBefore_lead_time":"3 أسابيع","exAfter_lead_time":"6 أيام","exBefore_quote_time":"5 أيام","exAfter_quote_time":"24 ساعة","exBefore_cost":"5,000 جنيه للقطعة","exAfter_cost":"3,200 جنيه للقطعة","exBefore_moq":"1,000 قطعة","exAfter_moq":"من غير حد أدنى","exBefore_rejects":"12% هالك","exAfter_rejects":"1% هالك","exBefore_downtime":"10 أيام وقف","exAfter_downtime":"يومين وقف","readyTitle":"جاهزة للنشر","readyYes":"دي فيها كل اللي محتاجينه.","readyNo":"لسه ناقص:","statusDraft":"مسودة","statusNeedsInfo":"ناقصة معلومات","statusApproved":"متوافق عليها","statusPublished":"اتنشرت","errRequired":"من فضلك املا الخانة دي.","errPhotoRequired":"محتاجين صورة واحدة على الأقل للقطعة بعد ما خلصت.","errSaveFailed":"مقدرناش نحفظ. مضاعش منك حاجة - جرب تاني بعد شوية.","errLoadFailed":"مقدرناش نحمل المكتبة. اعمل ريفريش للصفحة.","errNotAllowed":"الصفحة دي لحسابات فريق Entag بس.","emailSubject":"دراسة حالة جديدة: ","emailIntro":"اتضافت دراسة حالة جديدة في المكتبة.","emailOpen":"افتح المكتبة","capProblem":"المشكلة","capSolution":"إحنا عملنا إيه","capProof":"الدليل","capQuote":"كلام العميل","capDetails":"التفاصيل"}};</script>
+  <script>var PRELOAD_STRINGS = {"en":{"dir":"ltr","lang":"en","appTitle":"Entag Case Study Library","headerTitle":"Case Study Library","appSubtitle":"Every delivered job we can turn into proof.","navLibrary":"Library","navAdd":"Add case study","langToggle":"العربية","navBack":"Back","navForward":"Forward","signedInAs":"Signed in as","signInTitle":"Sign in","signInIntro":"Type the personal code marketing gave you. You only need to do this once on each phone or laptop.","signInPlaceholder":"Your code, like K7PQ2XRM","signInButton":"Sign in","signInWrong":"That code didn't work. Check it and try again, or ask marketing for yours.","signInTooMany":"Too many wrong codes were tried. Please wait 10 minutes and try again.","signOut":"Sign out","signOutConfirm":"Sign out on this device? You will need your code or your personal link to get back in.","searchPlaceholder":"Search client, part, material…","filterCapability":"Capability","filterIndustry":"Industry","filterStatus":"Status","filterYear":"Year","filterAll":"All","clearFilters":"Clear filters","countOne":"case study","countMany":"case studies","emptyTitle":"Nothing here yet","emptyBody":"Add the first case study and it will show up here.","emptyFiltered":"No case study matches those filters.","loading":"Loading…","back":"Back to library","edit":"Edit","delete":"Delete","deleteConfirm":"Delete this case study for everyone? Its photos go to the Drive bin for 30 days, so marketing can still bring it back if it was a mistake.","deleted":"Deleted","writePost":"Write a post","copied":"Copied.","postTitle":"Post drafts","postIntro":"Three ready drafts built from this case study, best bet first. Copy one, read it through, then post.","postLinkedIn":"LinkedIn","postInstagram":"Instagram","postBest":"Best bet","postSpecificity":"Leads with the number","postLoss":"Leads with the problem","postProof":"Leads with the client","postWhySpecificity":"Engineers and buyers stop scrolling for a concrete number.","postWhyLoss":"Makes the reader feel the cost of the problem first.","postWhyProof":"Lets the client do the convincing.","postCopy":"Copy post","postCopyComment":"Copy first comment","postCopyLink":"Copy link","postFirstComment":"Post this as the first comment. Links inside the post itself get shown to fewer people.","postBioLink":"Put this link in your Instagram bio:","postNoNumber":"There is no standard vs Entag number yet, so the strongest kind of post is missing. Add the numbers with Edit.","postMachineText":"Parts of this were machine-translated. Read it through and fix the wording before posting.","postBlocked":"This client is internal only, so there are no posts. Ask the client first, then change \"Can we name them publicly?\" with Edit.","tplHookNumber":"{metric}: {after} with Entag, where {before} is standard.","tplNeeded":"{who} needed {part}.","tplWhere":"That's where {whoMid} was when they came to Entag.","tplResult":"The result: {metricMid} of {after}, against a standard {before}.","tplCameWith":"{who} came to us for {part}.","tplHow":"How {whoMid} got {part} made.","tplMoq":"No minimum order quantity, even for a small run like this one.","tplRepeat":"They've ordered again since.","tplCtaLinkedIn":"Have a part like this? Upload your drawing and get a quote within 24 hours. Link in the first comment.","tplCtaInstagram":"Have a part like this? Upload your drawing and get a quote within 24 hours. Link in bio.","tplComment":"Get a quote for your part: {link}","photos":"Photos","loadingPhotos":"Loading photos…","noPhotos":"No photos on this one yet.","videos":"Videos","noVideos":"No videos on this one.","videoPrompt":"Drop videos here, or click to choose","videoHint":"Up to 1 minute each. Add as many as you like.","videoWaiting":"Waiting: fill in the client name and what we made first","videoQueued":"Waiting its turn","videoUploading":"Uploading {pct}%","videoShrinking":"Making it smaller first: {pct}%","videoKeepOpen":"Videos are made smaller, then uploaded. Keep this page open until they're done.","videoDone":"Saved","videoFailed":"Didn't upload. Check your internet.","videoRetry":"Try again","videoStillUploading":"still uploading ({pct}%)","videoOpenNote":"Videos open in Google Drive, for whoever is signed in to the company Google account.","anonFlag":"Name hidden in posts","photoNote":"Click a photo to open it in Google Drive, where you can download it. You can also right-click a photo to copy or save it.","openFolder":"Open this case study's folder in Google Drive","folderNote":"The full write-up (a Google Doc), the photos and the videos are all in there.","driveNote":"Drive opens for whoever is signed in to the company Google account.","videoTooLong":"{names}: longer than 1 minute. Please trim it and add it again.","videoNotVideo":"{names}: not a video.","videoCantCheck":"Couldn't check how long {names} is, and it's too big to take a chance. Please add a shorter clip.","addedBy":"Added by","lastEdited":"Last edited","viewIn":"Read in","autoTranslated":"Auto-translated, not reviewed","humanWritten":"Written by the team","internalOnly":"Internal only, do not publish","anonymisedClient":"A {industry} manufacturer","fillingInAs":"Filling in as: {name}","standard":"Standard","metricPickFirst":"Tick the numbers above first, then fill them in here.","withEntag":"With Entag","addNewBig":"+ Add a new case study","needsInfoTitle":"Needs info","needsInfoIntro":"Still missing before this one can be published:","needsInfoEdit":"Fill them in","filesPrompt":"Drop drawings or files here, or click to choose","filesHint":"Any 2D or 3D file (PDF, DWG, DXF, STEP, STL...), up to 1 GB each.","files":"Drawings and files","noFiles":"No drawings or files on this one.","fileNote":"Files open in Google Drive, for whoever is signed in to the company Google account. You can download them from there.","fileKeepOpen":"Files are uploading. Keep this page open until they're done.","fileTooBig":"{names}: empty or bigger than 1 GB, so it can't be added.","formTitleNew":"Add a case study","formTitleEdit":"Edit case study","formIntro":"The core questions take about 5 minutes. Anything under “More detail” is optional. Fill what you know and leave the rest.","formLangNote":"Write in English or Arabic, whichever is easier. The other language fills in automatically.","sectionCore":"The essentials","sectionProof":"The proof","sectionPhotos":"Photos","sectionOptional":"More detail (optional)","sectionExtra":"Anything else","sectionMarketing":"Marketing use","docNote":"This Doc fills itself in from the library every time someone saves, so anything typed here gets replaced. To change something, edit the case study in the","docStatus":"Status","docAddedBy":"Added by","docUpdated":"Last changed by","docEmpty":"Not filled in yet","docAuto":"auto-translated, not reviewed","docInternal":"internal only, never published","docInFolder":"In this folder:","docArrow":"→","optionalToggleShow":"Show more detail","optionalToggleHide":"Hide more detail","save":"Save case study","saving":"Saving…","cancel":"Cancel","required":"Required","optional":"Optional","selectPlaceholder":"Choose one…","otherPlaceholder":"Type it here","multiHint":"Pick as many as apply","draftRestored":"Restored what you had typed before.","draftCleared":"Draft cleared.","uploadPrompt":"Drop photos here, or click to choose","uploadHint":"Big photos are shrunk automatically, so phone pictures are fine.","uploadRemove":"Remove","uploadProcessing":"Preparing photos…","uploadUnreadable":"Couldn't open {names}. Please use a JPG or PNG photo.","saveStateSaving":"Saving…","saveStateSaved":"All changes saved","saveStateNeedBasics":"Only the client name and what we made are required. After those, everything saves by itself.","saveStateFailed":"Not saved yet. Check your internet. Trying again…","postSample":"This is the example case study, not a real job. Use it to see how posts come out, but don't publish it.","monthNames":"January,February,March,April,May,June,July,August,September,October,November,December","exBefore_lead_time":"3 weeks","exAfter_lead_time":"6 days","exBefore_quote_time":"5 days","exAfter_quote_time":"24 hours","exBefore_cost":"5,000 EGP a piece","exAfter_cost":"3,200 EGP a piece","exBefore_moq":"1,000 pieces","exAfter_moq":"no minimum","exBefore_rejects":"12% rejected","exAfter_rejects":"1% rejected","exBefore_downtime":"10 days stopped","exAfter_downtime":"2 days stopped","readyTitle":"Ready to publish","readyYes":"This one has everything it needs.","readyNo":"Still missing:","statusDraft":"Draft","statusNeedsInfo":"Needs info","statusApproved":"Approved","statusPublished":"Published","errRequired":"Please fill this in.","errPhotoRequired":"At least one photo of the finished part is needed.","errSaveFailed":"Could not save. Nothing was lost, so try again in a moment.","errLoadFailed":"Could not load the library. Refresh the page.","errNotAllowed":"This page is for Entag team accounts only.","emailSubject":"New case study: ","emailIntro":"A new case study was added to the library.","emailOpen":"Open the library","capProblem":"THE PROBLEM","capSolution":"WHAT ENTAG DID","capProof":"THE PROOF","capQuote":"CLIENT QUOTE","capDetails":"DETAILS"},"ar":{"dir":"rtl","lang":"ar","appTitle":"مكتبة دراسات الحالة - Entag","headerTitle":"مكتبة دراسات الحالة","appSubtitle":"كل شغلانة سلمناها ينفع تتحول لدليل نعرضه.","navLibrary":"المكتبة","navAdd":"ضيف دراسة حالة","langToggle":"English","navBack":"رجوع","navForward":"قدّام","signedInAs":"داخل باسم","signInTitle":"تسجيل الدخول","signInIntro":"اكتب الكود الشخصي اللي الماركتينج إدّاهولك. هتعمل كده مرة واحدة بس على كل موبايل أو لابتوب.","signInPlaceholder":"الكود بتاعك، زي K7PQ2XRM","signInButton":"ادخل","signInWrong":"الكود ده مش شغال. اتأكد منه وجرب تاني، أو اطلب الكود بتاعك من الماركتينج.","signInTooMany":"اتجربت أكواد غلط كتير. استنى 10 دقايق وجرب تاني.","signOut":"خروج","signOutConfirm":"تسجّل خروج من الجهاز ده؟ هتحتاج الكود بتاعك أو اللينك الخاص بيك عشان تدخل تاني.","searchPlaceholder":"دور على عميل أو قطعة أو خامة…","filterCapability":"الخدمة","filterIndustry":"المجال","filterStatus":"الحالة","filterYear":"السنة","filterAll":"الكل","clearFilters":"شيل الفلاتر","countOne":"دراسة حالة","countMany":"دراسة حالة","emptyTitle":"لسه مفيش حاجة هنا","emptyBody":"ضيف أول دراسة حالة وهتلاقيها ظهرت هنا.","emptyFiltered":"مفيش دراسة حالة مطابقة للفلاتر دي.","loading":"بيحمل…","back":"رجوع للمكتبة","edit":"تعديل","delete":"امسح","deleteConfirm":"تمسح دراسة الحالة دي عند الكل؟ الصور هتروح سلة درايف لمدة 30 يوم، فالماركتينج تقدر ترجعها لو كان غلط.","deleted":"اتمسحت","writePost":"اكتب بوست منها","copied":"اتنسخ.","postTitle":"مسودات بوستات","postIntro":"3 مسودات جاهزة معمولة من دراسة الحالة دي، الأقوى الأول. انسخ واحدة، اقراها كويس، وبعدين انشرها.","postLinkedIn":"لينكدإن","postInstagram":"إنستجرام","postBest":"الأقوى","postSpecificity":"بتبدأ بالرقم","postLoss":"بتبدأ بالمشكلة","postProof":"بتبدأ بالعميل","postWhySpecificity":"المهندسين والمشترين بيقفوا عند رقم واضح.","postWhyLoss":"بتخلي اللي بيقرا يحس بتمن المشكلة الأول.","postWhyProof":"بتخلي العميل هو اللي يقنع.","postCopy":"انسخ البوست","postCopyComment":"انسخ أول كومنت","postCopyLink":"انسخ اللينك","postFirstComment":"انشر ده كأول كومنت. اللينكات اللي جوه البوست نفسه بتوصل لناس أقل.","postBioLink":"حط اللينك ده في البايو بتاع إنستجرام:","postNoNumber":"لسه مفيش رقم المعتاد مقابل Entag، فأقوى نوع بوست ناقص. ضيف الأرقام من تعديل.","postMachineText":"أجزاء من الكلام ده مترجمة آلياً. اقراها وظبط الكلام قبل ما تنشر.","postBlocked":"العميل ده للاستخدام الداخلي بس، فمفيش بوستات. اسأل العميل الأول، وبعدين غيّر \"ينفع نذكر اسمهم علناً؟\" من تعديل.","tplHookNumber":"{metric}: {after} مع Entag، والمعتاد {before}.","tplNeeded":"{who} كانوا محتاجين {part}.","tplWhere":"ده كان الوضع عند {whoMid} لما جولنا.","tplResult":"والنتيجة: {metricMid} {after}، والمعتاد {before}.","tplCameWith":"{who} جولنا عشان {part}.","tplHow":"إزاي {whoMid} عملوا {part}.","tplMoq":"من غير حد أدنى للكمية، حتى لو الطلب صغير زي ده.","tplRepeat":"ورجعوا طلبوا مننا تاني بعدها.","tplCtaLinkedIn":"عندك قطعة زي دي؟ ارفع الرسمة وخد عرض سعر في خلال 24 ساعة. اللينك في أول كومنت.","tplCtaInstagram":"عندك قطعة زي دي؟ ارفع الرسمة وخد عرض سعر في خلال 24 ساعة. اللينك في البايو.","tplComment":"اطلب عرض سعر لقطعتك من هنا: {link}","photos":"الصور","loadingPhotos":"بيحمل الصور…","noPhotos":"لسه مفيش صور على دي.","videos":"الفيديوهات","noVideos":"مفيش فيديوهات على دي.","videoPrompt":"ارمي الفيديوهات هنا، أو دوس عشان تختار","videoHint":"لحد دقيقة لكل فيديو. ضيف قد ما تحب.","videoWaiting":"مستني: اكتب اسم العميل وعملنا إيه الأول","videoQueued":"مستني دوره","videoUploading":"بيترفع {pct}%","videoShrinking":"بنصغّره الأول: {pct}%","videoKeepOpen":"الفيديوهات بتتصغّر الأول وبعدين تترفع. خلي الصفحة مفتوحة لحد ما يخلصوا.","videoDone":"اتحفظ","videoFailed":"مترفعش. شيك على النت.","videoRetry":"جرّب تاني","videoStillUploading":"لسه بيترفع ({pct}%)","videoOpenNote":"الفيديوهات بتفتح على جوجل درايف، لأي حد داخل على حساب جوجل بتاع الشركة.","anonFlag":"الاسم مخفي في البوستات","photoNote":"دوس على أي صورة تفتحها على جوجل درايف وتنزلها من هناك. وممكن كمان تدوس كليك يمين على الصورة عشان تنسخها أو تحفظها.","openFolder":"افتح فولدر دراسة الحالة دي على جوجل درايف","folderNote":"القصة كاملة (ملف جوجل دوكس) والصور والفيديوهات كلهم هناك.","driveNote":"درايف بيفتح لأي حد داخل على حساب جوجل بتاع الشركة.","videoTooLong":"{names}: أطول من دقيقة. قصّه وضيفه تاني.","videoNotVideo":"{names}: ده مش فيديو.","videoCantCheck":"مقدرناش نعرف طول {names}، وهو كبير فمش هنخاطر. ضيف مقطع أقصر.","addedBy":"ضافها","lastEdited":"آخر تعديل","viewIn":"اقرأها بـ","autoTranslated":"ترجمة آلية - محدش راجعها","humanWritten":"مكتوبة من الفريق","internalOnly":"للاستخدام الداخلي بس - متنشرش","anonymisedClient":"شركة في مجال {industry}","fillingInAs":"بتملاها باسم: {name}","standard":"المعتاد","metricPickFirst":"علّم على الأرقام اللي فوق الأول، وبعدين اكتبها هنا.","withEntag":"مع Entag","addNewBig":"+ ضيف دراسة حالة جديدة","needsInfoTitle":"ناقصها معلومات","needsInfoIntro":"لسه ناقص قبل ما تتنشر:","needsInfoEdit":"كمّلها","filesPrompt":"حط الرسومات أو الملفات هنا، أو دوس عشان تختار","filesHint":"أي ملف 2D أو 3D (PDF، DWG، DXF، STEP، STL...)، لحد 1 جيجا للملف.","files":"الرسومات والملفات","noFiles":"مفيش رسومات أو ملفات على دي.","fileNote":"الملفات بتفتح على Google Drive، لأي حد داخل بحساب Google بتاع الشركة. وتقدر تنزلها من هناك.","fileKeepOpen":"الملفات بتترفع. خلي الصفحة مفتوحة لحد ما يخلصوا.","fileTooBig":"{names}: فاضي أو أكبر من 1 جيجا، فمينفعش يتضاف.","formTitleNew":"ضيف دراسة حالة","formTitleEdit":"تعديل دراسة الحالة","formIntro":"الأسئلة الأساسية بتاخد 5 دقايق تقريباً. أي حاجة تحت \"تفاصيل زيادة\" اختيارية - املا اللي تعرفه وسيب الباقي.","formLangNote":"اكتب بالعربي أو بالإنجليزي، أنهي واحدة أسهل عليك. اللغة التانية هتتملي لوحدها.","sectionCore":"الأساسيات","sectionProof":"الدليل","sectionPhotos":"الصور","sectionOptional":"تفاصيل زيادة (اختياري)","sectionExtra":"أي حاجة تانية","sectionMarketing":"استخدام الماركتينج","docNote":"الملف ده بيتملى لوحده من المكتبة كل ما حد يحفظ، فأي حاجة تتكتب هنا هتتمسح. لو عايز تغير حاجة، عدّل دراسة الحالة في","docStatus":"الحالة","docAddedBy":"ضافها","docUpdated":"آخر تعديل من","docEmpty":"لسه متملتش","docAuto":"ترجمة آلية، محدش راجعها","docInternal":"داخلي بس، عمره ما هيتنشر","docInFolder":"موجودة في الفولدر ده:","docArrow":"←","optionalToggleShow":"ورّيني تفاصيل زيادة","optionalToggleHide":"اخفي التفاصيل الزيادة","save":"احفظ دراسة الحالة","saving":"بيحفظ…","cancel":"إلغاء","required":"مطلوبة","optional":"اختيارية","selectPlaceholder":"اختار واحدة…","otherPlaceholder":"اكتبها هنا","multiHint":"اختار كل اللي ينطبق","draftRestored":"رجعنالك اللي كنت كاتبه قبل كده.","draftCleared":"المسودة اتمسحت.","uploadPrompt":"ارمي الصور هنا، أو دوس عشان تختار","uploadHint":"الصور الكبيرة بتصغر لوحدها، يعني صور الموبايل تمام.","uploadRemove":"شيل","uploadProcessing":"بيجهز الصور…","uploadUnreadable":"مقدرناش نفتح {names}. استخدم صورة JPG أو PNG.","saveStateSaving":"بيحفظ…","saveStateSaved":"كل التغييرات اتحفظت","saveStateNeedBasics":"المطلوب بس اسم العميل وعملنا إيه. بعد كده كل حاجة بتتحفظ لوحدها.","saveStateFailed":"لسه متحفظش. شيك على النت، بنحاول تاني…","postSample":"دي دراسة الحالة المثال، مش شغلانة حقيقية. استخدمها عشان تشوف البوستات بتطلع إزاي، بس متنشرهاش.","monthNames":"يناير,فبراير,مارس,أبريل,مايو,يونيو,يوليو,أغسطس,سبتمبر,أكتوبر,نوفمبر,ديسمبر","exBefore_lead_time":"3 أسابيع","exAfter_lead_time":"6 أيام","exBefore_quote_time":"5 أيام","exAfter_quote_time":"24 ساعة","exBefore_cost":"5,000 جنيه للقطعة","exAfter_cost":"3,200 جنيه للقطعة","exBefore_moq":"1,000 قطعة","exAfter_moq":"من غير حد أدنى","exBefore_rejects":"12% هالك","exAfter_rejects":"1% هالك","exBefore_downtime":"10 أيام وقف","exAfter_downtime":"يومين وقف","readyTitle":"جاهزة للنشر","readyYes":"دي فيها كل اللي محتاجينه.","readyNo":"لسه ناقص:","statusDraft":"مسودة","statusNeedsInfo":"ناقصة معلومات","statusApproved":"متوافق عليها","statusPublished":"اتنشرت","errRequired":"من فضلك املا الخانة دي.","errPhotoRequired":"محتاجين صورة واحدة على الأقل للقطعة بعد ما خلصت.","errSaveFailed":"مقدرناش نحفظ. مضاعش منك حاجة - جرب تاني بعد شوية.","errLoadFailed":"مقدرناش نحمل المكتبة. اعمل ريفريش للصفحة.","errNotAllowed":"الصفحة دي لحسابات فريق Entag بس.","emailSubject":"دراسة حالة جديدة: ","emailIntro":"اتضافت دراسة حالة جديدة في المكتبة.","emailOpen":"افتح المكتبة","capProblem":"المشكلة","capSolution":"إحنا عملنا إيه","capProof":"الدليل","capQuote":"كلام العميل","capDetails":"التفاصيل"}};</script>
   <script>
 /* Talks to the library's Apps Script by message, in place of google.script.run. */
 (function () {
@@ -674,6 +683,25 @@ function otherBox(f, entry, prefill) {
   else if (entry) input.value = entry[input.name] || '';
   input.addEventListener('input', onFormChange);
   return input;
+}
+
+/**
+ * The proof numbers: several can be ticked, each with its own standard and Entag
+ * value, kept one per line in the order ticked. Same as metricPairs_ on the server.
+ */
+function metricPairs(entry, lang) {
+  var before = String(bilingual(entry, 'metric_before', lang).text || '').split('\n');
+  var after = String(bilingual(entry, 'metric_after', lang).text || '').split('\n');
+  return String(entry.metric_type || '').split(',').map(function (v) { return v.trim(); }).filter(String)
+    .map(function (type, i) {
+      return { type: type, before: String(before[i] || '').trim(), after: String(after[i] || '').trim() };
+    });
+}
+
+/** The typed values for each ticked number, as the one-per-line text that's stored. */
+function joinMetricLines(types, byType) {
+  var lines = types.map(function (t) { return String(byType[t] || '').trim(); });
+  return lines.join('').length ? lines.join('\n') : '';
 }
 
 function fieldDef(key) {
@@ -1031,12 +1059,11 @@ function card(e) {
   body.appendChild(el('div', 'card-part', bilingual(e, 'part_made', LANG).text));
   if (e.created_by) body.appendChild(el('div', 'card-by', S('addedBy') + ': ' + personName(e.created_by)));
 
-  var cardBefore = bilingual(e, 'metric_before', LANG).text;
-  var cardAfter = bilingual(e, 'metric_after', LANG).text;
-  if (e.metric_type && cardBefore && cardAfter) {
+  var first = metricPairs(e, LANG).filter(function (x) { return x.before && x.after; })[0];
+  if (first) {
     var m = el('div', 'card-metric');
-    m.innerHTML = esc(listLabel('metric', e.metric_type)) + ': ' +
-      esc(cardBefore) + ' <b>' + esc(S('docArrow')) + '</b> ' + esc(cardAfter); // → in English, ← in Arabic
+    m.innerHTML = esc(listLabel('metric', first.type)) + ': ' +
+      esc(first.before) + ' <b>' + esc(S('docArrow')) + '</b> ' + esc(first.after); // → in English, ← in Arabic
     body.appendChild(m);
   }
 
@@ -1127,14 +1154,28 @@ function drawDetail() {
   if (e.usage_permission === 'internal') badges.appendChild(el('span', 'flag internal', S('internalOnly')));
   head.appendChild(badges);
 
-  var stripBefore = bilingual(e, 'metric_before', CONTENT_LANG).text;
-  var stripAfter = bilingual(e, 'metric_after', CONTENT_LANG).text;
-  if (e.metric_type && stripBefore) {
+  metricPairs(e, CONTENT_LANG).forEach(function (pr) {
+    if (!pr.before && !pr.after) return;
     var strip = el('div', 'proof-strip');
-    strip.appendChild(proofItem(listLabel('metric', e.metric_type), stripBefore));
+    strip.appendChild(proofItem(listLabel('metric', pr.type) + ' \u00B7 ' + S('standard'), pr.before || '-'));
     strip.appendChild(el('div', 'proof-arrow', S('docArrow'))); // → in English, ← in Arabic
-    strip.appendChild(proofItem('Entag', stripAfter));
+    strip.appendChild(proofItem(S('withEntag'), pr.after || '-'));
     head.appendChild(strip);
+  });
+
+  var missing = (e.readiness && e.readiness.missing) || [];
+  if (missing.length) {
+    var need = el('div', 'needs-info');
+    need.appendChild(el('strong', '', S('needsInfoTitle')));
+    need.appendChild(el('div', '', S('needsInfoIntro')));
+    var ul = document.createElement('ul');
+    missing.forEach(function (k) { ul.appendChild(el('li', '', FT(k, 'label'))); });
+    need.appendChild(ul);
+    var fix = el('button', 'btn btn-ghost btn-sm', S('needsInfoEdit'));
+    fix.type = 'button';
+    fix.addEventListener('click', function () { navTo({ view: 'form', id: e.id }); });
+    need.appendChild(fix);
+    head.appendChild(need);
   }
 
   var actions = el('div', 'detail-actions');
@@ -1372,17 +1413,19 @@ function buildPosts(entry, lang, platform) {
     whoMid = lang === 'en' ? who.charAt(0).toLowerCase() + who.slice(1) : who;
   }
 
-  var metric = label('metric', 'metric_type', entry.metric_type);
+  text('metric_before'); text('metric_after'); // notes if the numbers were machine-translated
+  var lead = metricPairs(entry, lang).filter(function (x) { return x.before && x.after; })[0] || { type: '', before: '', after: '' };
+  var metric = lead.type ? label('metric', 'metric_type', lead.type) : '';
   var vars = {
     who: who, whoMid: whoMid,
     part: lower(text('part_made')),
     metric: metric, metricMid: lang === 'en' ? metric.toLowerCase() : metric,
-    before: String(text('metric_before') || '').trim(),
-    after: String(text('metric_after') || '').trim()
+    before: lead.before,
+    after: lead.after
   };
   var problem = sentence(text('problem'));
   var solution = sentence(text('solution'));
-  var hasNumber = !!(entry.metric_type && vars.before && vars.after);
+  var hasNumber = !!(lead.type && vars.before && vars.after);
 
   var quoteBlock = '';
   if (entry.quote_approved === 'yes') {
@@ -1609,17 +1652,8 @@ function renderForm(entry, prefill) {
   BOOT.fields.forEach(function (f) {
     var host = document.getElementById(groups[f.group]);
     if (!host) return;
-    var node = buildField(f, entry, prefill);
-    if (f.key === 'metric_before') {
-      var pair = el('div', 'pair');
-      pair.id = 'metricPair';
-      host.appendChild(pair);
-      pair.appendChild(node);
-    } else if (f.key === 'metric_after' && document.getElementById('metricPair')) {
-      document.getElementById('metricPair').appendChild(node);
-    } else {
-      host.appendChild(node);
-    }
+    if (f.key === 'metric_after') return; // shown inside the numbers box
+    host.appendChild(f.key === 'metric_before' ? buildMetricPairs(entry, prefill) : buildField(f, entry, prefill));
   });
 
   var toggle = document.getElementById('optionalToggle');
@@ -1629,6 +1663,80 @@ function renderForm(entry, prefill) {
 
   updateReadiness();
   document.getElementById('formMsg').textContent = '';
+}
+
+/** One row per ticked proof number: its standard value and its value with Entag. */
+function buildMetricPairs(entry, prefill) {
+  var wrap = el('div', 'field');
+  wrap.setAttribute('data-key', 'metric_before');
+  var label = el('label', 'field-label', FT('metric_before', 'label'));
+  label.appendChild(el('span', 'field-opt', S('optional')));
+  wrap.appendChild(label);
+  var help = el('div', 'field-help', metricHelp('metric_before'));
+  help.setAttribute('data-metric-help', 'metric_before');
+  wrap.appendChild(help);
+  var rows = el('div', 'metric-rows');
+  rows.id = 'metricRows';
+  wrap.appendChild(rows);
+
+  // What's already there, by number type.
+  var given = function (k) { return prefill && prefill[k] !== undefined ? prefill[k] : undefined; };
+  var view = {
+    metric_type: given('metric_type') !== undefined ? given('metric_type') : ((entry || {}).metric_type || ''),
+    metric_before_en: '', metric_before_ar: '', metric_after_en: '', metric_after_ar: ''
+  };
+  ['metric_before', 'metric_after'].forEach(function (k) {
+    var typed = given(k + '_' + LANG);
+    view[k + '_' + LANG] = typed !== undefined ? typed : (entry ? bilingual(entry, k, LANG).text : '');
+  });
+  METRIC_TYPED = { before: {}, after: {} };
+  metricPairs(view, LANG).forEach(function (p) {
+    METRIC_TYPED.before[p.type] = p.before;
+    METRIC_TYPED.after[p.type] = p.after;
+  });
+  setTimeout(drawMetricRows, 0);
+  return wrap;
+}
+
+var METRIC_TYPED = { before: {}, after: {} }; // what's typed in the numbers box, by number type
+
+function tickedMetrics() {
+  var box = document.querySelector('#form .checks[data-name="metric_type"]');
+  if (!box) return [];
+  return Array.prototype.slice.call(box.querySelectorAll('input:checked')).map(function (c) { return c.value; });
+}
+
+function drawMetricRows() {
+  var rows = document.getElementById('metricRows');
+  if (!rows) return;
+  var types = tickedMetrics();
+  if (rows.getAttribute('data-types') === types.join(',')) return;
+  rows.setAttribute('data-types', types.join(','));
+  rows.innerHTML = '';
+  if (!types.length) { rows.appendChild(el('div', 'field-help', S('metricPickFirst'))); return; }
+  types.forEach(function (t) {
+    var row = el('div', 'metric-row');
+    row.appendChild(el('div', 'metric-name', listLabel('metric', t)));
+    var pair = el('div', 'pair');
+    [['before', 'standard'], ['after', 'withEntag']].forEach(function (side) {
+      var cell = el('label', 'metric-cell');
+      cell.appendChild(el('span', 'metric-side', S(side[1])));
+      var input = document.createElement('input');
+      input.type = 'text';
+      input.setAttribute('data-metric', t);
+      input.setAttribute('data-side', side[0]);
+      input.value = METRIC_TYPED[side[0]][t] || '';
+      input.placeholder = exampleFor(side[0] === 'before' ? 'exBefore_' : 'exAfter_', t);
+      input.addEventListener('input', function () {
+        METRIC_TYPED[side[0]][t] = input.value;
+        onFormChange();
+      });
+      cell.appendChild(input);
+      pair.appendChild(cell);
+    });
+    row.appendChild(pair);
+    rows.appendChild(row);
+  });
 }
 
 /** "Added by Shahd · Last edited by Omar", under a case study's title. */
@@ -1715,6 +1823,16 @@ function buildField(f, entry, prefill) {
       cb.checked = chosen.indexOf(o.value) > -1;
       cb.addEventListener('change', function () {
         lab.classList.toggle('is-on', cb.checked);
+        // "No difficulty" and a difficulty can't both be ticked.
+        if (f.key === 'difficulty' && cb.checked) {
+          Array.prototype.forEach.call(box.querySelectorAll('input'), function (other) {
+            if (other !== cb && (cb.value === 'none' || other.value === 'none') && other.checked) {
+              other.checked = false;
+              other.parentNode.classList.remove('is-on');
+              other.dispatchEvent(new Event('change'));
+            }
+          });
+        }
         onFormChange();
       });
       lab.appendChild(cb);
@@ -2470,6 +2588,13 @@ function collectValues() {
     values[name] = picked.join(', ');
   }
 
+  // The numbers box: one line per ticked number, for the language on screen.
+  if (document.getElementById('metricRows')) {
+    var types = tickedMetrics();
+    values['metric_before_' + LANG] = joinMetricLines(types, METRIC_TYPED.before);
+    values['metric_after_' + LANG] = joinMetricLines(types, METRIC_TYPED.after);
+  }
+
   // A "type it here" answer only counts while Other is actually picked.
   if (BOOT) BOOT.fields.forEach(function (f) {
     var k = f.key + '_other';
@@ -2501,8 +2626,9 @@ function missingFields(values) {
 }
 
 function updateReadiness() {
-  var missing = missingFields(mergePending());
   var box = document.getElementById('readiness');
+  if (!box) return; // the form no longer shows it; the case study page does
+  var missing = missingFields(mergePending());
   box.innerHTML = '';
   box.classList.toggle('is-ready', missing.length === 0);
 
@@ -2523,14 +2649,16 @@ var draftTimer = null;
 
 function isMetricSide(key) { return key === 'metric_before' || key === 'metric_after'; }
 
-/** The before/after help, with an example that matches the number picked above. */
-function metricExample(key) {
-  var sel = document.querySelector('select[name="metric_type"]');
-  var type = (sel && sel.value) || 'lead_time';
+function exampleFor(side, type) {
   var packs = (BOOT && BOOT.strings) || PRELOAD_STRINGS;
   var p = packs[LANG] || packs.en;
-  var side = key === 'metric_before' ? 'exBefore_' : 'exAfter_';
   return p[side + type] || p[side + 'lead_time'];
+}
+
+/** The numbers help, with an example that matches the first number ticked above. */
+function metricExample(key) {
+  var type = tickedMetrics()[0] || 'lead_time';
+  return exampleFor('exBefore_', type) + ' ' + S('docArrow') + ' ' + exampleFor('exAfter_', type);
 }
 
 function metricHelp(key) {
@@ -2538,15 +2666,13 @@ function metricHelp(key) {
 }
 
 function refreshMetricHelp() {
-  ['metric_before', 'metric_after'].forEach(function (k) {
-    var h = document.querySelector('[data-metric-help="' + k + '"]');
-    if (h) h.textContent = metricHelp(k);
-    var box = document.querySelector('#form [name="' + k + '_' + LANG + '"]');
-    if (box) box.placeholder = metricExample(k);
-  });
+  drawMetricRows();
+  var h = document.querySelector('[data-metric-help="metric_before"]');
+  if (h) h.textContent = metricHelp('metric_before');
 }
 
 function onFormChange() {
+  mergePending(); // what's on screen, for the browser's copy
   refreshMetricHelp();
   updateReadiness();
   scheduleAutosave();
@@ -2846,6 +2972,7 @@ function wireUp() {
   var toLibrary = function () { navTo({ view: 'library' }); };
   document.getElementById('tabLibrary').addEventListener('click', toLibrary);
   document.getElementById('tabAdd').addEventListener('click', function () { navTo({ view: 'form', id: null }); });
+  document.getElementById('addBig').addEventListener('click', function () { navTo({ view: 'form', id: null }); });
   document.getElementById('detailBack').addEventListener('click', toLibrary);
   document.getElementById('formBack').addEventListener('click', toLibrary);
   document.getElementById('cancelBtn').addEventListener('click', toLibrary);
